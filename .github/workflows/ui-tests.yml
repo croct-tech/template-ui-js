@@ -37,15 +37,23 @@ jobs:
       - name: Install Playwright
         run: npx playwright install --with-deps
 
-      - name: Build Storybook
-        run: npm run build-storybook
+      - name: Build React Storybook
+        run: npm run build-storybook-react
+
+      - name: Build Web component Storybook
+        run: npm run build-storybook-web-component
+
+      - name: Serve Web component Storybook and run tests
+        run: |
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static/web-component --port 6007 --silent" \
+            "npx wait-on tcp:6007 && npm run test-storybook-web-component" \      
 
       - name: Serve Storybook and run tests
         run: |
           npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-            "npx http-server storybook-static/web-component --port 6007 --silent" \
-            "npx http-server storybook-static/react --port 6006 --silent" \
-            "npx wait-on tcp:6007 && npx wait-on tcp:6006 && npm run test-storybook"
+            "npx http-server storybook-static/react --port 6008 --silent" \
+            "npx wait-on tcp:6008 && npm run test-storybook-react" \
 
   test-visual-regression:
     runs-on: ubuntu-latest
@@ -59,7 +67,7 @@ jobs:
 
       - name: Prepare to publish to Chromatic
         run: |
-            sed -i -e "s~http://localhost:6008~https://\${GITHUB_REF#refs/heads/}--67c5fae036c2b363358e815b.chromatic.com~" .storybook/react/main.ts
+            sed -i -e "s~http://localhost:6008~https://${GITHUB_REF#refs/heads/}--67c5fae036c2b363358e815b.chromatic.com~" .storybook/react/main.ts
 
       - name: Publish web component to Chromatic
         uses: chromaui/action@latest

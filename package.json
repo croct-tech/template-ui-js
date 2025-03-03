@@ -32,7 +32,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook-web-component": "storybook build --config-dir .storybook/web-component --output-dir storybook-static/web-component",
     "build-storybook-react": "storybook build --config-dir .storybook/react --output-dir storybook-static/react",
-    "test-storybook": "test-storybook"
+    "test-storyboo-web-component": "test-storybook -c .storybook/web-component",
+    "test-storybook-react": "test-storybook -c .storybook/react"
   },
   "dependencies": {
     "@r2wc/react-to-web-component": "^2.0.4",
