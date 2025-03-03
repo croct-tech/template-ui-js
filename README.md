@@ -48,10 +48,18 @@ Install dependencies:
 npm install
 ```
 
+Build Storybook:
+
+```sh
+npm run build-storybook-web-component
+npm run build-storybook-react
+```
+
 Run tests:
 
 ```sh
-npm run test
+npm run test-storybook-web-component
+npm run test-storybook-react
 ```
 
 Lint code to check for style issues:
@@ -59,3 +67,7 @@ Lint code to check for style issues:
 ```sh
 npm run lint
 ```
+
+## License
+
+This library is licensed under the [MIT license](LICENSE).
