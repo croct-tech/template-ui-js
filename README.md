@@ -30,7 +30,7 @@
 This library provides a set of UI components for previewing templates installed by the Croct CLI.
 
 > [!IMPORTANT]
-> This library is intended for internal use and is not meant to be installed directly.
+> This library is intended for development purposes and should not be added as a direct dependency in your project.
 
 ## Preview
 
