@@ -57,8 +57,19 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Publish to Chromatic
+      - name: Prepare to publish to Chromatic
+        run: |
+            sed -i -e "s~http://localhost:6008~https://\${GITHUB_REF#refs/heads/}--67c5fae036c2b363358e815b.chromatic.com~" .storybook/react/main.ts
+
+      - name: Publish web component to Chromatic
         uses: chromaui/action@latest
         with:
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN_WEB_COMPONENT }}
+          configFile: chromatic.web.config.json
+
+      - name: Publish React to Chromatic
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN_REACT }}
+          configFile: chromatic.react.config.json
+

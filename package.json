@@ -27,9 +27,11 @@
     "dev": "vite",
     "build": "tsc --project tsconfig.build.json",
     "build-web-component": "tsc -b && vite build",
-    "storybook-web-component": "storybook dev -p 6007 --config-dir .storybook/web-component",
+    "storybook-web-component": "storybook dev -p 6008 --config-dir .storybook/web-component",
+    "storybook-react": "storybook dev -p 6007 --config-dir .storybook/react",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build --config-dir .storybook/web-component --output-dir storybook-static/web-component  && storybook build --output-dir storybook-static/react",
+    "build-storybook-web-component": "storybook build --config-dir .storybook/web-component --output-dir storybook-static/web-component",
+    "build-storybook-react": "storybook build --config-dir .storybook/react --output-dir storybook-static/react",
     "test-storybook": "test-storybook"
   },
   "dependencies": {

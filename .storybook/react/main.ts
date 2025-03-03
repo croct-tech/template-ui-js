@@ -2,7 +2,7 @@ import type { StorybookConfig } from '@storybook/react-vite';
 
 const config: StorybookConfig = {
   stories: [
-    "../src/react/**/*.stories.@(js|jsx|mjs|ts|tsx)"
+    "../../src/react/**/*.stories.@(js|jsx|mjs|ts|tsx)"
   ],
   addons: [
     "@storybook/addon-essentials",
@@ -14,11 +14,11 @@ const config: StorybookConfig = {
     "options": {}
   },
   refs: {
-    react: {
-      title: 'Web components',
-      url: 'http://localhost:6007',
-    },
-  },
+    "web-components": {
+        title: "Web Components",
+        url: "http://localhost:6008"
+    }
+  }
 };
 
 export default config;

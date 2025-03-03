@@ -1,0 +1,7 @@
+{
+  "onlyChanged": true,
+  "projectId": "Project:67c5fae036c2b363358e815b",
+  "storybookConfigDir": ".storybook/web-component",
+  "buildScriptName": "build-storybook-web-component",
+  "zip": true
+}
