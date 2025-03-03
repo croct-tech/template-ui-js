@@ -29,10 +29,7 @@
 
 This library provides a set of UI components for previewing templates installed by the Croct CLI.
 
-> [!IMPORTANT]
-> This library is intended for development purposes and should not be added as a direct dependency in your project.
-
-## Preview
+## Components
 
 Check out the [Storybook](https://master--67c5fae036c2b363358e815b.chromatic.com/) for a live preview of the components.
 
