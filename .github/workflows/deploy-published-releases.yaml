@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           registry-url: 'https://npm.pkg.github.com'
 
       - name: Cache dependencies
@@ -54,3 +54,28 @@ jobs:
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Bundle package
+        if: ${{ !github.event.release.prerelease }}
+        run: |-
+          rm -rf build
+          npm run build-web-component
+
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        if: ${{ !github.event.release.prerelease }}
+        uses: 'google-github-actions/auth@v2'
+        with:
+          workload_identity_provider: '${{ secrets.GCLOUD_WORKLOAD_IDENTITY }}'
+          service_account: '${{ secrets.GCLOUD_SERVICE_ACCOUNT }}'
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Deploy to GCS
+        if: ${{ !github.event.release.prerelease }}
+        env:
+          GCLOUD_BUCKET: ${{ secrets.GCLOUD_BUCKET }}
+        run: |-
+          gsutil -m cp build/template-ui.mjs "gs://${GCLOUD_BUCKET}/js/template-ui@$(echo ${GITHUB_REF} | cut -d. -f1).mjs"
+          gsutil -m setmeta -h "Cache-Control: public, max-age=3600" "gs://${GCLOUD_BUCKET}/js/template-ui@$(echo ${GITHUB_REF} | cut -d. -f1).mjs"

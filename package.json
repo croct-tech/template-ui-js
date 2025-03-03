@@ -1,11 +1,11 @@
 {
-  "name": "@croct/ts-project",
+  "name": "@croct/template-ui",
   "version": "0.0.0-dev",
-  "description": "A brief description about the project.",
+  "description": "UI components for previewing templates installed by Croct CLI.",
   "author": {
     "name": "Croct",
-    "email": "lib+project-ts@croct.com",
-    "url": "https://github.com/croct-tech/project-ts"
+    "email": "lib+template-ui-js@croct.com",
+    "url": "https://github.com/croct-tech/template-ui-js"
   },
   "license": "UNLICENSED",
   "keywords": [
@@ -13,32 +13,60 @@
     "personalization",
     "typescript"
   ],
-  "types": "index.d.ts",
-  "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/croct-tech/project-ts.git"
+    "url": "git+https://github.com/croct-tech/template-ui-js.git"
   },
   "bugs": {
-    "url": "https://github.com/croct-tech/project-ts/issues"
+    "url": "https://github.com/croct-tech/template-ui-js/issues"
   },
-  "homepage": "https://github.com/croct-tech/project-ts",
+  "homepage": "https://github.com/croct-tech/template-ui-js",
   "scripts": {
-    "lint": "eslint 'src/**/*.ts' 'test/**/*.ts'",
-    "test": "jest -c jest.config.js --coverage",
+    "lint": "eslint 'src/**/*.ts'",
     "validate": "tsc --noEmit",
-    "build": "tsc -p tsconfig.build.json"
+    "dev": "vite",
+    "build": "tsc --project tsconfig.build.json",
+    "build-web-component": "tsc -b && vite build",
+    "storybook-web-component": "storybook dev -p 6008 --config-dir .storybook/web-component",
+    "storybook-react": "storybook dev -p 6007 --config-dir .storybook/react",
+    "build-storybook-web-component": "storybook build --config-dir .storybook/web-component --output-dir storybook-static/web-component",
+    "build-storybook-react": "storybook build --config-dir .storybook/react --output-dir storybook-static/react",
+    "test-storybook-web-component": "test-storybook -c .storybook/web-component --url http://127.0.0.1:6008",
+    "test-storybook-react": "test-storybook -c .storybook/react --url http://127.0.0.1:6007"
+  },
+  "dependencies": {
+    "@r2wc/react-to-web-component": "^2.0.4",
+    "clsx": "^2.1.1",
+    "react": "^18.0 || ^19.0",
+    "react-dom": "^18.0 || ^19.0"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^3.2.5",
     "@croct/eslint-plugin": "^0.7.0",
-    "@swc/jest": "^0.2.24",
-    "@types/jest": "^29.0.0",
+    "@storybook/addon-essentials": "^8.6.3",
+    "@storybook/addon-onboarding": "^8.6.3",
+    "@storybook/addon-themes": "^8.6.3",
+    "@storybook/blocks": "^8.6.3",
+    "@storybook/experimental-addon-test": "^8.6.3",
+    "@storybook/react": "^8.6.3",
+    "@storybook/react-vite": "^8.6.3",
+    "@storybook/test": "^8.6.3",
+    "@storybook/test-runner": "^0.22.0",
+    "@storybook/web-components-vite": "^8.6.3",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
     "@typescript-eslint/parser": "^8.0.0",
-    "eslint": "^9.0.0",
-    "jest": "^29.0.0",
-    "jest-extended": "^4.0.0",
-    "ts-node": "^10.8.2",
-    "typescript": "^5.0.0"
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/browser": "^3.0.7",
+    "@vitest/coverage-v8": "^3.0.7",
+    "eslint": "^8.0.0",
+    "eslint-plugin-storybook": "^0.11.3",
+    "playwright": "^1.50.1",
+    "storybook": "^8.6.3",
+    "typescript": "^5.0.0",
+    "vite": "^6.2.0",
+    "vite-plugin-css-injected-by-js": "^3.5.2",
+    "vitest": "^3.0.7"
   },
   "files": [
     "**/*.js",

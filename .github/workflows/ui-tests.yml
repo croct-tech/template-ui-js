@@ -1,0 +1,83 @@
+name: 'UI Tests'
+
+on: push
+
+jobs:
+  install-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Commit
+        uses: actions/checkout@v4
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node_modules-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install dependencies
+        if: steps.cache-dependencies.outputs.cache-hit != 'true'
+        run: npm ci
+
+  test-interaction-and-accessibility:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
+      - name: Build React Storybook
+        run: npm run build-storybook-react
+
+      - name: Build Web component Storybook
+        run: npm run build-storybook-web-component
+
+      - name: Serve Web component Storybook and run tests
+        run: |
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static/web-component --port 6008 --silent" \
+            "npx wait-on tcp:6008 && npm run test-storybook-web-component" \      
+
+      - name: Serve Storybook and run tests
+        run: |
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static/react --port 6007 --silent" \
+            "npx wait-on tcp:6007 && npm run test-storybook-react" \
+
+  test-visual-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Required to retrieve Git history
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Prepare to publish to Chromatic
+        run: |
+            sed -i -e "s~http://localhost:6008~https://${GITHUB_REF#refs/heads/}--67c5fae036c2b363358e815b.chromatic.com~" .storybook/react/main.ts
+
+      - name: Publish web component to Chromatic
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN_WEB_COMPONENT }}
+          configFile: chromatic.web.config.json
+
+      - name: Publish React to Chromatic
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN_REACT }}
+          configFile: chromatic.react.config.json
+

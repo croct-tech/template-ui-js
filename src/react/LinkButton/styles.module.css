@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,500&display=swap');
+
+@media (prefers-color-scheme: dark) {
+    .button {
+        --background: #fff;
+        --text: #1E293B;
+        --background-hover: #f8fafc;
+        --icon: #334155;
+    }
+}
+
+.button {
+    --background: #0F172A;
+    --text: #F1F5F9;
+    --background-hover: #1e293b;
+    --icon: #E2E8F0;
+    --outline: #8286fc;
+
+    text-wrap: nowrap;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    color: inherit;
+    text-decoration: none;
+    width: fit-content;
+    display: inline-flex;
+    align-items: center;
+    border: none;
+    margin: 0;
+    box-sizing: border-box;
+    border-radius: 9999px;
+    padding: 0.5rem 1.25rem;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    line-height: 1.4rem;
+    font-weight: 500;
+    outline-width: 2px;
+    outline-style: solid;
+    outline-offset: 2px;
+    outline-color: transparent;
+    background-color: var(--background);
+    color: var(--text);
+
+    &:hover {
+        background-color: var(--background-hover);
+    }
+
+    &:focus-visible {
+        outline-color: var(--outline);
+    }
+
+    & > .icon {
+        color: var(--icon);
+        margin-left: 8px;
+        display: inline-flex;
+    }
+
+    & > .logo {
+        margin-right: 12px;
+        display: inline-flex;
+    }
+
+    &.branded > .icon {
+        margin-left: 12px;
+    }
+
+    &.bottom-right, &.bottom-left {
+        position: fixed;
+    }
+
+    &.bottom-right {
+        top: auto;
+        left: auto;
+        bottom: 1.5rem;
+        right: 1.5rem;
+    }
+
+    &.bottom-left {
+        top: auto;
+        right: auto;
+        bottom: 1.5rem;
+        left: 1.5rem;
+    }
+
+    &.dark {
+        --background: #fff;
+        --text: #1E293B;
+        --background-hover: #f8fafc;
+        --icon: #334155;
+    }
+
+    &.light {
+        --background: #0F172A;
+        --text: #F1F5F9;
+        --background-hover: #1e293b;
+        --icon: #E2E8F0;
+    }
+}
