@@ -32,6 +32,10 @@ This library provides a set of UI components for previewing templates installed 
 > [!Note]
 > This library is intended for internal use and is not meant to be installed directly.
 
+## Preview
+
+Check out the [Storybook](https://master--67c5fae036c2b363358e815b.chromatic.com/) for a live preview of the components.
+
 ## Contributing
 
 Contributions are welcome!
