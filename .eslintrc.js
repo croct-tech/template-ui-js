@@ -19,4 +19,12 @@ module.exports = {
             version: 'detect',
         },
     },
+    overrides: [
+        {
+            files: ['**/*.stories.ts'],
+            rules: {
+                'import/no-default-export': 'off',
+            },
+        },
+    ],
 };
