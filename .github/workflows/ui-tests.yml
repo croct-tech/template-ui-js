@@ -19,7 +19,7 @@ jobs:
             ${{ runner.os }}-npm-v1
       - name: Install dependencies if cache invalid
         if: steps.npm-cache.outputs.cache-hit != 'true'
-        run: npm
+        run: npm ci
 
   interaction-and-accessibility:
     runs-on: ubuntu-latest
