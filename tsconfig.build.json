@@ -1,13 +1,17 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "moduleResolution": "node",
+    "outDir": "./build",
     "noEmit": false,
-    "rootDir": "src",
-    "outDir": "build"
+    "declaration": true,
+    "allowSyntheticDefaultImports": true,
+    "allowImportingTsExtensions": false,
   },
+  "include": [
+    "src/**/*.ts",
+  ],
   "exclude": [
-    "node_modules",
-    "build",
-    "**/*.test.ts"
+    "src/**/*.stories.ts",
   ]
 }
