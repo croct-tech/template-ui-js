@@ -3,6 +3,7 @@ name: Send Storybook preview
 on:
   pull_request:
     types:
+      - synchronize
       - opened
 jobs:
   send-guidelines:
