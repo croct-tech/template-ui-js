@@ -46,7 +46,7 @@ jobs:
 
       - name: Build & Publish
         run: |
-          sed -i -e "s~http://localhost:6008~https://preview.template-ui-web.croct.dev/pr-${{ github.event.number }}~" .storybook/react/main.ts
+          sed -i -e "s~http://localhost:6008~https://template-ui-web.croct.dev/pr-${{ github.event.number }}~" .storybook/react/main.ts
           npm run build-storybook -- --quiet --config-dir .storybook/web --output-dir storybook-static/web/pr-${{ github.event.number }}
           npm run build-storybook -- --quiet --config-dir .storybook/react --output-dir storybook-static/react/pr-${{ github.event.number }}
           
@@ -99,4 +99,4 @@ jobs:
           issue-number: ${{ github.event.number }}
           body: |-
             :fire: Here is the preview of the pull request:
-            https://preview.template-ui.croct.dev/pr-${{ github.event.number }}
+            https://template-ui.croct.dev/pr-${{ github.event.number }}
