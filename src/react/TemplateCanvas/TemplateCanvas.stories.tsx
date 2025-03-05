@@ -94,4 +94,17 @@ export const Dark: Story = {
     },
 };
 
+export const MaximumSize: Story = {
+    name: 'Maximum size',
+    args: {
+        maxWidth: 500,
+        maxHeight: 200,
+    },
+    play: async ({canvasElement}) => {
+        const container = within(canvasElement);
+
+        await expect(container.getByRole('heading', {name: 'Testimonial grid', level: 1})).toBeInTheDocument();
+    },
+};
+
 export default meta;
