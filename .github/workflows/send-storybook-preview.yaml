@@ -13,4 +13,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           pullRequestOpened: |
             Here's the Storybook preview for this pull request:
-            https://{{ payload.head_ref }}--67c5fae036c2b363358e815b.chromatic.com
+            [https://{{ payload.base.ref }}--67c5fae036c2b363358e815b.chromatic.com](https://{{ payload.base.ref }}--67c5fae036c2b363358e815b.chromatic.com)
