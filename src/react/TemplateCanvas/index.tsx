@@ -2,9 +2,9 @@ import {FunctionComponent, ReactNode} from 'react';
 import cls from 'clsx';
 import styles from './styles.module.css';
 import canvasCss from './styles.module.css?inline';
-import {css as buttonCss, LinkButton} from '../LinkButton';
+import {linkButtonCss as buttonCss, LinkButton} from '../LinkButton';
 
-export const css = canvasCss + buttonCss;
+export const templateCanvasCss = canvasCss + buttonCss;
 
 export type TemplateCanvasProps = {
     /**
