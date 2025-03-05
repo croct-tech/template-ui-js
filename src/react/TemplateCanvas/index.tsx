@@ -38,10 +38,27 @@ export type TemplateCanvasProps = {
      * The template component to be shown.
      */
     children: ReactNode,
+    /**
+     * The template max width.
+     */
+    maxWidth?: number,
+    /**
+     * The template max height.
+     */
+    maxHeight?: number,
 };
 
 export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
-    const {subBrand = 'templates', title, children, theme, ctaLink, ctaLabel} = props;
+    const {
+        subBrand = 'templates',
+        title,
+        children,
+        theme,
+        ctaLink,
+        ctaLabel,
+        maxWidth,
+        maxHeight,
+    } = props;
 
     return (
         <div className={cls(styles.canvas, styles[theme ?? ''])}>
@@ -55,7 +72,7 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
                     <div className={styles.logo}>
                         <Logo />
                         <span className={styles.subbrand}>
-                            / ${subBrand}
+                            / {subBrand}
                         </span>
                     </div>
                     <div className={styles['heading-group']}>
@@ -71,7 +88,13 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
                         </div>
                     </div>
                 </header>
-                <div className={styles.template}>
+                <div
+                    className={styles.template}
+                    style={{
+                        maxWidth: maxWidth,
+                        maxHeight: maxHeight,
+                    }}
+                >
                     {children}
                 </div>
             </div>

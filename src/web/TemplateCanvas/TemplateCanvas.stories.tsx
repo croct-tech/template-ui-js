@@ -10,16 +10,6 @@ const meta: Meta<TemplateCanvasProps> = {
     parameters: {
         layout: 'fullscreen',
     },
-    render: (args): string => `
-        <template-canvas
-            theme="${args.theme}"
-            title="${args.title}"
-            cta-label="${args.ctaLabel}"
-            cta-link="${args.ctaLink}"
-        >
-            <div style="width: 100%; height: 400px"></div>
-        </template-canvas>
-    `,
     args: {
         title: 'Testimonial grid',
         theme: 'light',
