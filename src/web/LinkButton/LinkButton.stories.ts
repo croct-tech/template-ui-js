@@ -1,5 +1,5 @@
 import type {Meta, StoryObj} from '@storybook/web-components';
-import {LinkButton, LinkButtonProps} from './index';
+import {LinkButton, LinkButtonProps} from './index.tsx';
 
 customElements.define('link-button', LinkButton);
 

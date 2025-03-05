@@ -2,6 +2,9 @@
 import {FunctionComponent} from 'react';
 import cls from 'clsx';
 import styles from './styles.module.css';
+import css from './styles.module.css?inline';
+
+export {css};
 
 export type LinkButtonProps = {
     /**
