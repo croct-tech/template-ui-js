@@ -8,8 +8,6 @@ export default create({
     colorPrimary: '#4DD684',
     colorSecondary: '#4DD684',
     appBg: '#F1F4F5',
-    fontBase: '"Inter", -apple-system, "Helvetica Neue", sans-serif',
-    fontCode: 'monospace',
     textColor: '#0F1010',
     textInverseColor: '#ffffffe6',
     barTextColor: '#616871',
