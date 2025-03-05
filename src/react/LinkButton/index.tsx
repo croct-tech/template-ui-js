@@ -1,4 +1,3 @@
-/* eslint-disable max-len -- Disabled for better readability */
 import {FunctionComponent} from 'react';
 import cls from 'clsx';
 import styles from './styles.module.css';
