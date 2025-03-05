@@ -10,26 +10,38 @@ export const css = canvasCss + buttonCss;
 
 export type TemplateCanvasProps = {
     /**
-     * The template component to be shown.
+     * The sub-brand to show on the side of the logo.
      */
-    children: ReactNode,
+    subBrand?: string,
+
     /**
      * The title of the template.
      */
     title: string,
 
+    /**
+     * The label of the call-to-action button.
+     */
     ctaLabel: string,
 
+    /**
+     * The URL of the call-to-action button.
+     */
     ctaLink: string,
 
     /**
      * The theme of the template.
      */
     theme?: 'light' | 'dark',
+
+    /**
+     * The template component to be shown.
+     */
+    children: ReactNode,
 };
 
 export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
-    const {title, children, theme, ctaLink, ctaLabel} = props;
+    const {subBrand = 'templates', title, children, theme, ctaLink, ctaLabel} = props;
 
     return (
         <div className={cls(styles.canvas, styles[theme ?? ''])}>
@@ -42,8 +54,8 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
                 <header className={styles.header}>
                     <div className={styles.logo}>
                         <Logo />
-                        <span className={styles.breadcrumb}>
-                            / templates
+                        <span className={styles.subbrand}>
+                            / ${subBrand}
                         </span>
                     </div>
                     <div className={styles['heading-group']}>

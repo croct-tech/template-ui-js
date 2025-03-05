@@ -16,6 +16,7 @@ const ReactTemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => (
 export const TemplateCanvas = r2wc(ReactTemplateCanvas, {
     shadow: 'closed',
     props: {
+        subBrand: 'string',
         theme: 'string',
         title: 'string',
         ctaLabel: 'string',

@@ -31,7 +31,7 @@
         --logo: #FFFFFF;
         --breadcrumb: #94A3B8;
         --heading: #FFFFFF;
-        
+
         --template-border: #FFFFFF4D;
         --template-background: #0F172A;
     }
@@ -44,11 +44,11 @@
         --background-right-glow-to: transparent;
         --background-bottom-fade-from: #FFFFFF;
         --background-bottom-fade-to: transparent;
-    
+
         --logo: #202020;
         --breadcrumb: #64748B;
         --heading: #0F172A;
-    
+
         --template-border: #E2E8F0;
         --template-background: #FFFFFF;
     }
@@ -120,7 +120,7 @@
     color: var(--logo)
 }
 
-.breadcrumb {
+.subbrand {
     margin-left: 0.5rem;
     font-family: 'Inter';
     font-weight: 400;
@@ -172,7 +172,7 @@
         --logo: #FFFFFF;
         --breadcrumb: #94A3B8;
         --heading: #FFFFFF;
-        
+
         --template-border: #FFFFFF4D;
         --template-background: #0F172A;
     }
@@ -209,7 +209,7 @@
             flex-direction: column;
             align-items: start;
             gap: 1.5rem;
-    
+
             .heading {
                 white-space: normal;
                 display: -webkit-box;
