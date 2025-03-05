@@ -1,5 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import {ReactElement} from 'react';
+import {expect, within} from '@storybook/test';
 import {TemplateCanvas, TemplateCanvasProps} from './index.tsx';
 
 const meta: Meta<TemplateCanvasProps> = {
@@ -15,8 +16,10 @@ const meta: Meta<TemplateCanvasProps> = {
     args: {
         title: 'Testimonial grid',
         theme: 'light',
+        subBrandLabel: 'templates',
         ctaLabel: 'Edit content',
         ctaLink: 'https://app.croct.com',
+        subBrandLink: 'https://croct.com/templates',
         children: (
             <div style={{width: '100%', height: 400}} />
         ),
@@ -39,6 +42,25 @@ const meta: Meta<TemplateCanvasProps> = {
         },
         theme: {
             name: 'Theme',
+            control: {
+                type: 'radio',
+                labels: {
+                    light: 'Light',
+                    dark: 'Dark',
+                },
+            },
+        },
+        subBrandLabel: {
+            name: 'Sub brand label',
+        },
+        subBrandLink: {
+            name: 'Sub brand link',
+        },
+        maxWidth: {
+            name: 'Max width',
+        },
+        maxHeight: {
+            name: 'Max height',
         },
     },
     parameters: {
@@ -49,7 +71,21 @@ const meta: Meta<TemplateCanvasProps> = {
 
 type Story = StoryObj<typeof meta>;
 
-export const Regular: Story = {};
+export const Regular: Story = {
+    play: async ({canvasElement}) => {
+        const container = within(canvasElement);
+
+        await expect(container.getByRole('heading', {name: 'Testimonial grid', level: 1})).toBeInTheDocument();
+
+        await expect(container.getByText('/ templates')).toBeInTheDocument();
+
+        const cta = container.getByRole('link', {name: 'Edit content'});
+
+        await expect(cta).toBeInTheDocument();
+
+        await expect(cta).toHaveAttribute('href', 'https://app.croct.com');
+    },
+};
 
 export const Dark: Story = {
     name: 'Regular (Dark)',

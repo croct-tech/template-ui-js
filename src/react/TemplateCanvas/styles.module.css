@@ -11,7 +11,8 @@
     --background-bottom-fade-to: transparent;
 
     --logo: #202020;
-    --breadcrumb: #64748B;
+    --sub-brand: #64748B;
+    --sub-brand-hover: #475569;
     --heading: #0F172A;
 
     --template-border: #E2E8F0;
@@ -29,7 +30,8 @@
         --background-bottom-fade-from: #0F172A;
 
         --logo: #FFFFFF;
-        --breadcrumb: #94A3B8;
+        --sub-brand: #94A3B8;
+        --sub-brand-hover: #CBD5E1;
         --heading: #FFFFFF;
 
         --template-border: #FFFFFF4D;
@@ -46,7 +48,7 @@
         --background-bottom-fade-to: transparent;
 
         --logo: #202020;
-        --breadcrumb: #64748B;
+        --sub-brand: #64748B;
         --heading: #0F172A;
 
         --template-border: #E2E8F0;
@@ -125,12 +127,17 @@
                 color: var(--logo);
 
                 & > .subbrand {
+                    text-decoration: none;
                     margin-left: 0.5rem;
                     font-family: 'Inter';
                     font-weight: 400;
                     line-height: 1.2rem;
                     font-size: 1rem;
-                    color: var(--breadcrumb);
+                    color: var(--sub-brand);
+
+                    &:hover {
+                        color: var(--sub-brand-hover);
+                    }
                 }
             };
 
@@ -207,7 +214,7 @@
         --background-bottom-fade-from: #0F172A;
 
         --logo: #FFFFFF;
-        --breadcrumb: #94A3B8;
+        --sub-brand: #94A3B8;
         --heading: #FFFFFF;
 
         --template-border: #FFFFFF4D;

@@ -19,11 +19,14 @@ export const TemplateCanvas = r2wc(
     {
         shadow: 'closed',
         props: {
-            subBrand: 'string',
+            subBrandLabel: 'string',
+            subBrandLink: 'string',
             theme: 'string',
             title: 'string',
             ctaLabel: 'string',
             ctaLink: 'string',
+            maxWidth: 'number',
+            maxHeight: 'number',
         },
     },
 );

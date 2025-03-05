@@ -22,6 +22,7 @@ export const LinkButton = r2wc(
             theme: 'string',
             position: 'string',
             label: 'string',
+            size: 'string',
         },
     },
 );

@@ -8,9 +8,14 @@ export const css = canvasCss + buttonCss;
 
 export type TemplateCanvasProps = {
     /**
-     * The sub-brand to show on the side of the logo.
+     * The sub-brand label to show on the side of the logo.
      */
-    subBrand?: string,
+    subBrandLabel?: string,
+
+    /**
+     * The URL of the sub-brand.
+     */
+    subBrandLink?: string,
 
     /**
      * The title of the template.
@@ -36,10 +41,12 @@ export type TemplateCanvasProps = {
      * The template component to be shown.
      */
     children: ReactNode,
+
     /**
      * The template max width.
      */
     maxWidth?: number,
+
     /**
      * The template max height.
      */
@@ -48,7 +55,8 @@ export type TemplateCanvasProps = {
 
 export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
     const {
-        subBrand = 'templates',
+        subBrandLabel = 'templates',
+        subBrandLink = 'https://croct.com/templates',
         title,
         children,
         theme,
@@ -69,9 +77,9 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
                 <header className={styles.header}>
                     <div className={styles.logo}>
                         <Logo />
-                        <span className={styles.subbrand}>
-                            / {subBrand}
-                        </span>
+                        <a className={styles.subbrand} href={subBrandLink}>
+                            / {subBrandLabel}
+                        </a>
                     </div>
                     <div className={styles['heading-group']}>
                         <h1 className={styles.heading}>
