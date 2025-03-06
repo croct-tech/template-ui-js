@@ -46,47 +46,30 @@ jobs:
 
       - name: Build & Publish
         run: |
-          sed -i -e "s~http://localhost:6008~https://preview.template-ui-web.croct.dev/pr-${{ github.event.number }}~" .storybook/react/main.ts
-          npm run build-storybook -- --quiet --config-dir .storybook/web --output-dir storybook-static/web/pr-${{ github.event.number }}
-          npm run build-storybook -- --quiet --config-dir .storybook/react --output-dir storybook-static/react/pr-${{ github.event.number }}
+          sed -i -e "s~http://localhost:6008~https://preview.template-ui-web.croct.dev/pr-${{ github.event.number }}/_web~" .storybook/react/main.ts
+          npm run build-storybook -- --quiet --config-dir .storybook/react --output-dir storybook-static/pr-${{ github.event.number }}
+          npm run build-storybook -- --quiet --config-dir .storybook/web --output-dir storybook-static/pr-${{ github.event.number }}/_web
 
-          docker buildx build ./storybook-static/web \
-          --file ./Dockerfile \
-          --tag gcr.io/${{ env.GCLOUD_PROJECT_DEV }}/storybook-web:${{ env.GITHUB_REF_SLUG_URL }} \
-          --push
-
-          docker buildx build ./storybook-static/react \
-          --file ./Dockerfile \
-          --tag gcr.io/${{ env.GCLOUD_PROJECT_DEV }}/storybook-react:${{ env.GITHUB_REF_SLUG_URL }} \
-          --push
+          docker buildx build ./storybook-static \
+            --file ./Dockerfile \
+            --tag gcr.io/${{ env.GCLOUD_PROJECT_DEV }}/template-ui:${{ env.GITHUB_REF_SLUG_URL }} \
+            --push
 
       - name: Deploy
         run: |-
-          IMAGE_TAG_WEB=gcr.io/${{ env.GCLOUD_PROJECT_DEV }}/storybook-web:${{ env.GITHUB_REF_SLUG_URL }}
-          IMAGE_TAG_REACT=gcr.io/${{ env.GCLOUD_PROJECT_DEV }}/storybook-react:${{ env.GITHUB_REF_SLUG_URL }}
+          IMAGE_TAG=gcr.io/${{ env.GCLOUD_PROJECT_DEV }}/template-ui:${{ env.GITHUB_REF_SLUG_URL }}
 
-          IMAGE_DIGEST_WEB=$(gcloud container images describe $IMAGE_TAG_WEB --format=json | jq -r '.image_summary.fully_qualified_digest')
-          IMAGE_DIGEST_REACT=$(gcloud container images describe $IMAGE_TAG_REACT --format=json | jq -r '.image_summary.fully_qualified_digest')
+          IMAGE_DIGEST=$(gcloud container images describe $IMAGE_TAG --format=json | jq -r '.image_summary.fully_qualified_digest')
 
           gcloud --project ${{ env.GCLOUD_PROJECT_DEV }} --quiet \
-          beta run deploy template-ui-web \
-          --platform=managed \
-          --region=us-central1 \
-          "--image=$IMAGE_DIGEST_WEB" \
-          --allow-unauthenticated \
-          --no-traffic \
-          --tag pr-${{ github.event.number }} \
-          --format=json > run_deploy_storybook_web.json
-
-          gcloud --project ${{ env.GCLOUD_PROJECT_DEV }} --quiet \
-          beta run deploy template-ui \
-          --platform=managed \
-          --region=us-central1 \
-          "--image=$IMAGE_DIGEST_REACT" \
-          --allow-unauthenticated \
-          --no-traffic \
-          --tag pr-${{ github.event.number }} \
-          --format=json > run_deploy_storybook_react.json
+            beta run deploy template-ui \
+            --platform=managed \
+            --region=us-central1 \
+            "--image=$IMAGE_DIGEST" \
+            --allow-unauthenticated \
+            --no-traffic \
+            --tag pr-${{ github.event.number }} \
+            --format=json > run_deploy_storybook_react.json
 
       - name: Send comment
         uses: peter-evans/create-or-update-comment@v4
