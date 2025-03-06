@@ -5,6 +5,9 @@ import {LinkButton, LinkButtonProps} from './index.tsx';
 const meta: Meta<LinkButtonProps> = {
     title: 'LinkButton',
     component: LinkButton,
+    args: {
+        theme: 'light',
+    },
     parameters: {
         layout: 'centered',
     },

@@ -5,6 +5,8 @@ import linkButtonCss from './styles.module.css?inline';
 
 export {linkButtonCss};
 
+type Size = 'md' | 'lg';
+
 export type LinkButtonProps = {
     /**
      * The URL to navigate to when the button is clicked.
@@ -29,7 +31,12 @@ export type LinkButtonProps = {
     /**
      * The size of the button.
      */
-    size?: 'md' | 'lg',
+    size?: Size,
+};
+
+const sizeStyleMap: Record<Size, string> = {
+    md: styles.md,
+    lg: styles.lg,
 };
 
 export const LinkButton: FunctionComponent<LinkButtonProps> = props => {
@@ -39,10 +46,8 @@ export const LinkButton: FunctionComponent<LinkButtonProps> = props => {
         <a
             href={href}
             className={
-                cls(styles.button, styles[position], styles[theme], {
+                cls(styles.button, styles[position], styles[theme], sizeStyleMap[size], {
                     [styles.branded]: branded,
-                    [styles.md]: size === 'md',
-                    [styles.lg]: size === 'lg',
                 })
             }
         >
