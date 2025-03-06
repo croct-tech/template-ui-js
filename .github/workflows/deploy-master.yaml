@@ -50,7 +50,7 @@ jobs:
           npm run build-storybook -- --quiet --config-dir .storybook/react --output-dir storybook-static
           npm run build-storybook -- --quiet --config-dir .storybook/web --output-dir storybook-static/_web
 
-          docker buildx build ./storybook-static/react \
+          docker buildx build ./storybook-static \
             --file ./Dockerfile \
             --tag gcr.io/${{ env.GCLOUD_PROJECT_DEV }}/template-ui \
             --push
