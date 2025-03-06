@@ -74,8 +74,12 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
                 <div className={styles['bottom-fade']} />
             </div>
             <div
-                className={styles.body}
                 style={{maxWidth: maxWidth}}
+                className={
+                    cls(styles.body, {
+                        [styles['fit-content']]: maxWidth !== undefined,
+                    })
+                }
             >
                 <header className={styles.header}>
                     <div className={styles.logo}>
