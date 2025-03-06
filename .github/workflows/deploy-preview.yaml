@@ -55,7 +55,7 @@ jobs:
           --tag gcr.io/${{ env.GCLOUD_PROJECT_DEV }}/storybook-web:${{ env.GITHUB_REF_SLUG_URL }} \
           --push
 
-          docker build ./storybook-static/react \
+          docker buildx build ./storybook-static/react \
           --file ./Dockerfile \
           --tag gcr.io/${{ env.GCLOUD_PROJECT_DEV }}/storybook-react:${{ env.GITHUB_REF_SLUG_URL }} \
           --push
