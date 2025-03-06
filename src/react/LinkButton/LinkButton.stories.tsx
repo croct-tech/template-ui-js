@@ -1,15 +1,15 @@
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryFn, StoryObj} from '@storybook/react';
 import {within, expect} from '@storybook/test';
-import {LinkButton} from './index.tsx';
+import {LinkButton, LinkButtonProps} from './index.tsx';
 
-const meta = {
+const meta: Meta<LinkButtonProps> = {
     title: 'LinkButton',
     component: LinkButton,
     parameters: {
         layout: 'centered',
     },
     tags: ['autodocs'],
-} satisfies Meta<typeof LinkButton>;
+};
 
 export default meta;
 
@@ -27,6 +27,21 @@ export const Regular: Story = {
     },
 };
 
+const SizesTemplate: StoryFn<LinkButtonProps> = args => (
+    <div style={{display: 'flex', alignItems: 'center', gap: 16}}>
+        <LinkButton {...args} size="md" />
+        <LinkButton {...args} size="lg" />
+    </div>
+);
+
+export const Sizes: Story = {
+    args: {
+        href: 'https://app.croct.com',
+        label: 'Edit content',
+    },
+    render: SizesTemplate,
+};
+
 export const Branded: Story = {
     args: {
         href: 'https://app.croct.com',
@@ -37,6 +52,7 @@ export const Branded: Story = {
 
 export const Floating: Story = {
     args: {
+        size: 'lg',
         href: 'https://app.croct.com',
         branded: true,
         position: 'bottom-right',

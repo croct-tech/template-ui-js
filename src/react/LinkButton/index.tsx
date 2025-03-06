@@ -1,7 +1,9 @@
-/* eslint-disable max-len -- Disabled for better readability */
 import {FunctionComponent} from 'react';
 import cls from 'clsx';
 import styles from './styles.module.css';
+import linkButtonCss from './styles.module.css?inline';
+
+export {linkButtonCss};
 
 export type LinkButtonProps = {
     /**
@@ -24,10 +26,14 @@ export type LinkButtonProps = {
      * The label of the button.
      */
     label: string,
+    /**
+     * The size of the button.
+     */
+    size?: 'md' | 'lg',
 };
 
 export const LinkButton: FunctionComponent<LinkButtonProps> = props => {
-    const {href, theme = '', branded = false, position = '', label} = props;
+    const {href, theme = '', branded = false, position = '', label, size = 'md'} = props;
 
     return (
         <a
@@ -35,6 +41,8 @@ export const LinkButton: FunctionComponent<LinkButtonProps> = props => {
             className={
                 cls(styles.button, styles[position], styles[theme], {
                     [styles.branded]: branded,
+                    [styles.md]: size === 'md',
+                    [styles.lg]: size === 'lg',
                 })
             }
         >
@@ -52,9 +60,24 @@ export const LinkButton: FunctionComponent<LinkButtonProps> = props => {
 };
 
 const ArrowRightIcon: FunctionComponent = () => (
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fillRule="evenodd" clipRule="evenodd" d="M10.4734 6.27504C10.4734 6.52357 10.272 6.72504 10.0234 6.72504L1.97344 6.72504C1.72491 6.72504 1.52344 6.52357 1.52344 6.27504C1.52344 6.02652 1.72491 5.82504 1.97344 5.82504L10.0234 5.82504C10.272 5.82504 10.4734 6.02652 10.4734 6.27504Z" fill="currentColor" />
-        <path fillRule="evenodd" clipRule="evenodd" d="M5.68024 10.6182C5.5045 10.4425 5.5045 10.1576 5.68024 9.98185L9.38704 6.27505L5.68024 2.56825C5.5045 2.39251 5.5045 2.10759 5.68024 1.93185C5.85598 1.75611 6.1409 1.75611 6.31664 1.93185L10.3416 5.95685C10.5174 6.13259 10.5174 6.41751 10.3416 6.59325L6.31664 10.6182C6.1409 10.794 5.85598 10.794 5.68024 10.6182Z" fill="currentColor" />
+    <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+            fill="currentColor"
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M17.4567 9.99829C17.4567 10.4125 17.1209 10.7483 16.7067 10.7483L3.29001 10.7483C2.87579 10.7483
+            2.54001 10.4125 2.54001 9.99829C2.54001 9.58408 2.87579 9.24829 3.29001 9.24829L16.7067 9.24829C17.1209
+            9.24829 17.4567 9.58408 17.4567 9.99829Z"
+        />
+        <path
+            fill="currentColor"
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M9.46801 17.237C9.17512 16.9441 9.17512 16.4692 9.46801 16.1763L15.646 9.99833L9.46801 3.82033C9.17512
+            3.52743 9.17512 3.05256 9.46801 2.75967C9.76091 2.46677 10.2358 2.46677 10.5287 2.75967L17.237
+            9.468C17.5299 9.76089 17.5299 10.2358 17.237 10.5287L10.5287 17.237C10.2358 17.5299 9.7609 17.5299
+            9.46801 17.237Z"
+        />
     </svg>
 );
 
