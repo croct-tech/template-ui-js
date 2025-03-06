@@ -31,7 +31,7 @@ This library provides a set of UI components for previewing templates installed 
 
 ## Components
 
-Check out the [Storybook](https://preview.template-ui.croct.dev/) for a live preview of the components.
+Check out the [Storybook](https://template-ui.croct.dev) for a live preview of the components.
 
 ## Contributing
 
