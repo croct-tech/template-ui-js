@@ -21,7 +21,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 18
-          registry-url: 'https://npm.pkg.github.com'
+          registry-url: "https://npm.pkg.github.com"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
 
@@ -33,8 +33,8 @@ jobs:
         name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: '${{ secrets.GCLOUD_WORKLOAD_IDENTITY }}'
-          service_account: '${{ secrets.GCLOUD_SERVICE_ACCOUNT }}'
+          workload_identity_provider: "${{ secrets.GCLOUD_WORKLOAD_IDENTITY }}"
+          service_account: "${{ secrets.GCLOUD_SERVICE_ACCOUNT }}"
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
@@ -46,51 +46,30 @@ jobs:
 
       - name: Build & Publish
         run: |
-          sed -i -e "s~http://localhost:6008~https://template-ui-web.croct.dev/pr-${{ github.event.number }}~" .storybook/react/main.ts
-          npm run build-storybook -- --quiet --config-dir .storybook/web --output-dir storybook-static/web/pr-${{ github.event.number }}
-          npm run build-storybook -- --quiet --config-dir .storybook/react --output-dir storybook-static/react/pr-${{ github.event.number }}
-          
-          docker build . \
-          --file Dockerfile \
-          --build-arg STORYBOOK=./storybook-static/web/pr-${{ github.event.number }} \
-          --tag gcr.io/${{ env.GCLOUD_PROJECT_DEV }}/storybook-web:${{ env.GITHUB_REF_SLUG_URL }}
-          
-          docker push gcr.io/${{ env.GCLOUD_PROJECT_DEV }}/storybook-web:${{ env.GITHUB_REF_SLUG_URL }}
-          
-          docker build . \
-          --file Dockerfile \
-          --build-arg STORYBOOK=./storybook-static/react/pr-${{ github.event.number }} \
-          --tag gcr.io/${{ env.GCLOUD_PROJECT_DEV }}/storybook-react:${{ env.GITHUB_REF_SLUG_URL }}
-          
-          docker push gcr.io/${{ env.GCLOUD_PROJECT_DEV }}/storybook-react:${{ env.GITHUB_REF_SLUG_URL }}
+          sed -i -e "s~http://localhost:6008~https://preview.template-ui.croct.dev/pr-${{ github.event.number }}/_web~" .storybook/react/main.ts
+          npm run build-storybook -- --quiet --config-dir .storybook/react --output-dir storybook-static/pr-${{ github.event.number }}
+          npm run build-storybook -- --quiet --config-dir .storybook/web --output-dir storybook-static/pr-${{ github.event.number }}/_web
+
+          docker buildx build ./storybook-static \
+            --file ./Dockerfile \
+            --tag gcr.io/${{ env.GCLOUD_PROJECT_DEV }}/template-ui:${{ env.GITHUB_REF_SLUG_URL }} \
+            --push
 
       - name: Deploy
         run: |-
-          IMAGE_TAG_WEB=gcr.io/${{ env.GCLOUD_PROJECT_DEV }}/storybook-web:${{ env.GITHUB_REF_SLUG_URL }}
-          IMAGE_TAG_REACT=gcr.io/${{ env.GCLOUD_PROJECT_DEV }}/storybook-react:${{ env.GITHUB_REF_SLUG_URL }}
-          
-          IMAGE_DIGEST_WEB=$(gcloud container images describe $IMAGE_TAG_WEB --format=json | jq -r '.image_summary.fully_qualified_digest')
-          IMAGE_DIGEST_REACT=$(gcloud container images describe $IMAGE_TAG_REACT --format=json | jq -r '.image_summary.fully_qualified_digest')
-          
+          IMAGE_TAG=gcr.io/${{ env.GCLOUD_PROJECT_DEV }}/template-ui:${{ env.GITHUB_REF_SLUG_URL }}
+
+          IMAGE_DIGEST=$(gcloud container images describe $IMAGE_TAG --format=json | jq -r '.image_summary.fully_qualified_digest')
+
           gcloud --project ${{ env.GCLOUD_PROJECT_DEV }} --quiet \
-          beta run deploy template-ui-web \
-          --platform=managed \
-          --region=us-central1 \
-          "--image=$IMAGE_DIGEST_WEB" \
-          --allow-unauthenticated \
-          --no-traffic \
-          --tag pr-${{ github.event.number }} \
-          --format=json > run_deploy_storybook_web.json
-          
-          gcloud --project ${{ env.GCLOUD_PROJECT_DEV }} --quiet \
-          beta run deploy template-ui \
-          --platform=managed \
-          --region=us-central1 \
-          "--image=$IMAGE_DIGEST_REACT" \
-          --allow-unauthenticated \
-          --no-traffic \
-          --tag pr-${{ github.event.number }} \
-          --format=json > run_deploy_storybook_react.json
+            beta run deploy template-ui \
+            --platform=managed \
+            --region=us-central1 \
+            "--image=$IMAGE_DIGEST" \
+            --allow-unauthenticated \
+            --no-traffic \
+            --tag pr-${{ github.event.number }} \
+            --format=json > run_deploy_storybook_react.json
 
       - name: Send comment
         uses: peter-evans/create-or-update-comment@v4
@@ -99,4 +78,4 @@ jobs:
           issue-number: ${{ github.event.number }}
           body: |-
             :fire: Here is the preview of the pull request:
-            https://template-ui.croct.dev/pr-${{ github.event.number }}
+            https://preview.template-ui.croct.dev/pr-${{ github.event.number }}
