@@ -10,20 +10,25 @@ const meta: Meta<TemplateCanvasProps> = {
     parameters: {
         layout: 'fullscreen',
     },
-    render: (args): string => `
-        <template-canvas
-            theme="${args.theme}"
-            title="${args.title}"
-            cta-label="${args.ctaLabel}"
-            cta-link="${args.ctaLink}"
-            sub-brand-label="${args.subBrandLabel}"
-            sub-brand-link="${args.subBrandLink}"
-            max-width="${args.maxWidth}"
-            max-height="${args.maxHeight}"
-        >
-            <div style="width: 100%; height: 400px"></div>
-        </template-canvas>
-    `,
+    render: (args): string => {
+        const maxWidth = args.maxWidth !== undefined ? `max-width="${args.maxWidth}"` : '';
+        const maxHeight = args.maxHeight !== undefined ? `max-height="${args.maxHeight}"` : '';
+
+        return `
+            <template-canvas
+                ${maxWidth}
+                ${maxHeight}
+                theme="${args.theme}"
+                title="${args.title}"
+                cta-label="${args.ctaLabel}"
+                cta-link="${args.ctaLink}"
+                sub-brand-label="${args.subBrandLabel}"
+                sub-brand-link="${args.subBrandLink}"
+            >
+                <div style="width: 100%; height: 400px"></div>
+            </template-canvas>
+        `;
+    },
     args: {
         title: 'Testimonial grid',
         theme: 'light',
