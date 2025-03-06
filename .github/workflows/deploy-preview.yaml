@@ -53,21 +53,21 @@ jobs:
           docker build . \
           --file Dockerfile \
           --build-arg STORYBOOK=./storybook-static/web/pr-${{ github.event.number }} \
-          --tag gcr.io/${{ secrets.GCLOUD_PROJECT }}/storybook-web:${{ env.GITHUB_REF_SLUG_URL }}
+          --tag gcr.io/${{ env.GCLOUD_PROJECT_DEV }}/storybook-web:${{ env.GITHUB_REF_SLUG_URL }}
           
-          docker push gcr.io/${{ secrets.GCLOUD_PROJECT }}/storybook-web:${{ env.GITHUB_REF_SLUG_URL }}
+          docker push gcr.io/${{ env.GCLOUD_PROJECT_DEV }}/storybook-web:${{ env.GITHUB_REF_SLUG_URL }}
           
           docker build . \
           --file Dockerfile \
           --build-arg STORYBOOK=./storybook-static/react/pr-${{ github.event.number }} \
-          --tag gcr.io/${{ secrets.GCLOUD_PROJECT }}/storybook-react:${{ env.GITHUB_REF_SLUG_URL }}
+          --tag gcr.io/${{ env.GCLOUD_PROJECT_DEV }}/storybook-react:${{ env.GITHUB_REF_SLUG_URL }}
           
-          docker push gcr.io/${{ secrets.GCLOUD_PROJECT }}/storybook-react:${{ env.GITHUB_REF_SLUG_URL }}
+          docker push gcr.io/${{ env.GCLOUD_PROJECT_DEV }}/storybook-react:${{ env.GITHUB_REF_SLUG_URL }}
 
       - name: Deploy
         run: |-
-          IMAGE_TAG_WEB=gcr.io/${{ secrets.GCLOUD_PROJECT }}/storybook-web:${{ env.GITHUB_REF_SLUG_URL }}
-          IMAGE_TAG_REACT=gcr.io/${{ secrets.GCLOUD_PROJECT }}/storybook-react:${{ env.GITHUB_REF_SLUG_URL }}
+          IMAGE_TAG_WEB=gcr.io/${{ env.GCLOUD_PROJECT_DEV }}/storybook-web:${{ env.GITHUB_REF_SLUG_URL }}
+          IMAGE_TAG_REACT=gcr.io/${{ env.GCLOUD_PROJECT_DEV }}/storybook-react:${{ env.GITHUB_REF_SLUG_URL }}
           
           IMAGE_DIGEST_WEB=$(gcloud container images describe $IMAGE_TAG_WEB --format=json | jq -r '.image_summary.fully_qualified_digest')
           IMAGE_DIGEST_REACT=$(gcloud container images describe $IMAGE_TAG_REACT --format=json | jq -r '.image_summary.fully_qualified_digest')
