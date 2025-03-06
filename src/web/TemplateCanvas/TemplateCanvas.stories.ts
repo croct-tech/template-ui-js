@@ -112,8 +112,8 @@ export const Dark: Story = {
 export const MaximumSize: Story = {
     name: 'Maximum size',
     args: {
-        maxWidth: 500,
-        maxHeight: 200,
+        maxWidth: 600,
+        maxHeight: 256,
     },
 };
 

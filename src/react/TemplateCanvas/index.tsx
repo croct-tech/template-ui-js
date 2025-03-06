@@ -73,7 +73,10 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
                 <div className={styles['right-glow']} />
                 <div className={styles['bottom-fade']} />
             </div>
-            <div className={styles.body}>
+            <div
+                className={styles.body}
+                style={{maxWidth: maxWidth}}
+            >
                 <header className={styles.header}>
                     <div className={styles.logo}>
                         <Logo />
@@ -96,10 +99,7 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
                 </header>
                 <div
                     className={styles.template}
-                    style={{
-                        maxWidth: maxWidth,
-                        maxHeight: maxHeight,
-                    }}
+                    style={{maxHeight: maxHeight}}
                 >
                     {children}
                 </div>

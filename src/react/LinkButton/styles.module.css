@@ -6,6 +6,7 @@
     --background-hover: #1e293b;
     --icon: #E2E8F0;
     --outline: #8286fc;
+    --border: #334155;
 
     text-wrap: nowrap;
     box-sizing: border-box;
@@ -74,8 +75,14 @@
         display: inline-flex;
     }
 
-    &.branded > .icon {
-        margin-left: 12px;
+    &.branded {
+        border-width: 1px;
+        border-style: solid;
+        border-color: var(--border);
+
+        & > .icon {
+            margin-left: 12px;
+        }
     }
 
     &.bottom-right, &.bottom-left {
@@ -102,6 +109,8 @@
         --text: #1E293B;
         --background-hover: #f8fafc;
         --icon: #334155;
+
+        border: none;
     }
 
     &.light {
@@ -109,6 +118,12 @@
         --text: #F1F5F9;
         --background-hover: #1e293b;
         --icon: #E2E8F0;
+
+        &.branded {
+            border-width: 1px;
+            border-style: solid;
+            border-color: var(--border);
+        }
     }
 }
 
@@ -118,5 +133,7 @@
         --text: #1E293B;
         --background-hover: #f8fafc;
         --icon: #334155;
+
+        border: none;
     }
 }

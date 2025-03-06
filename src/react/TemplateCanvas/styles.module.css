@@ -22,6 +22,8 @@
     background-color: var(--background-solid);
     width: 100%;
     height: 100%;
+    display: flex;
+    justify-content: center;
 
     &.dark {
         --background-solid: #0F172A;
@@ -34,7 +36,7 @@
         --sub-brand-hover: #CBD5E1;
         --heading: #FFFFFF;
 
-        --template-border: #FFFFFF4D;
+        --template-border: #ffffff33;
         --template-background: #0F172A;
     }
 
@@ -105,6 +107,7 @@
     };
 
     & > .body {
+        width: 100%;
         padding: 3rem 1.5rem 4.5rem 1.5rem;
         isolation: isolate;
 
@@ -218,7 +221,7 @@
         --sub-brand: #94A3B8;
         --heading: #FFFFFF;
 
-        --template-border: #FFFFFF4D;
+        --template-border: #ffffff33;
         --template-background: #0F172A;
     }
 }
