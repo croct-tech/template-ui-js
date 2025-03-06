@@ -69,6 +69,9 @@
     "vite-plugin-css-injected-by-js": "^3.5.2",
     "vitest": "^3.0.7"
   },
+  "overrides": {
+    "@joshwooding/vite-plugin-react-docgen-typescript": "0.5.0"
+  },
   "files": [
     "**/*.js",
     "**/*.ts"

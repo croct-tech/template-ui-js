@@ -18,6 +18,9 @@ const config: StorybookConfig = {
         title: "Web Components",
         url: "http://localhost:6008"
     }
+  },
+  core: {
+    disableTelemetry: true
   }
 };
 
