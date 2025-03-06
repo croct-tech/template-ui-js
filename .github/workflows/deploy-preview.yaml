@@ -95,4 +95,4 @@ jobs:
           issue-number: ${{ github.event.number }}
           body: |-
             :fire: Here is the preview of the pull request:
-            https://template-ui.croct.dev/pr-${{ github.event.number }}
+            https://preview.template-ui.croct.dev/pr-${{ github.event.number }}
