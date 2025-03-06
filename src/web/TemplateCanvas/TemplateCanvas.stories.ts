@@ -16,6 +16,10 @@ const meta: Meta<TemplateCanvasProps> = {
             title="${args.title}"
             cta-label="${args.ctaLabel}"
             cta-link="${args.ctaLink}"
+            sub-brand-label="${args.subBrandLabel}"
+            sub-brand-link="${args.subBrandLink}"
+            max-width="${args.maxWidth}"
+            max-height="${args.maxHeight}"
         >
             <div style="width: 100%; height: 400px"></div>
         </template-canvas>
@@ -25,6 +29,8 @@ const meta: Meta<TemplateCanvasProps> = {
         theme: 'light',
         ctaLink: 'https://app.croct.com',
         ctaLabel: 'Edit content',
+        subBrandLabel: 'templates',
+        subBrandLink: 'https://croct.com/templates',
     },
     argTypes: {
         title: {
@@ -50,17 +56,64 @@ const meta: Meta<TemplateCanvasProps> = {
             name: 'Theme',
             description: 'The theme of the template.',
         },
+        subBrandLabel: {
+            name: 'Sub brand label',
+            description: 'The sub-brand label to show on the side of the logo.',
+        },
+        subBrandLink: {
+            name: 'Sub brand link',
+            description: 'The URL of the sub-brand.',
+        },
+        maxWidth: {
+            name: 'Max width',
+            description: 'The template max width.',
+            control: {
+                type: 'number',
+            },
+        },
+        maxHeight: {
+            name: 'Max height',
+            description: 'The template max height.',
+            control: {
+                type: 'number',
+            },
+        },
     },
 };
 
 type Story = StoryObj<TemplateCanvasProps>;
 
-export const Regular: Story = {};
+export const Regular: Story = {
+    argTypes: {
+        theme: {
+            name: 'Theme',
+            control: {
+                disable: true,
+            },
+        },
+    },
+};
 
 export const Dark: Story = {
     name: 'Regular (Dark)',
     args: {
         theme: 'dark',
+    },
+    argTypes: {
+        theme: {
+            name: 'Theme',
+            control: {
+                disable: true,
+            },
+        },
+    },
+};
+
+export const MaximumSize: Story = {
+    name: 'Maximum size',
+    args: {
+        maxWidth: 500,
+        maxHeight: 200,
     },
 };
 

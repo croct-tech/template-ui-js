@@ -27,7 +27,7 @@
     "dev": "vite",
     "build-web-component": "tsc -b && vite build --config vite.web.config.ts",
     "build": "tsc -b && vite build",
-    "storybook-web-component": "storybook dev -p 6008 --config-dir .storybook/web-component",
+    "storybook-web-component": "storybook dev -p 6008 --config-dir .storybook/web",
     "storybook-react": "storybook dev -p 6007 --config-dir .storybook/react",
     "build-storybook-web-component": "storybook build --config-dir .storybook/web --output-dir storybook-static/web-component",
     "build-storybook-react": "storybook build --config-dir .storybook/react --output-dir storybook-static/react",

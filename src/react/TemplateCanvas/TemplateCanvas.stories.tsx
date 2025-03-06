@@ -72,6 +72,14 @@ const meta: Meta<TemplateCanvasProps> = {
 type Story = StoryObj<typeof meta>;
 
 export const Regular: Story = {
+    argTypes: {
+        theme: {
+            name: 'Theme',
+            control: {
+                disable: true,
+            },
+        },
+    },
     play: async ({canvasElement}) => {
         const container = within(canvasElement);
 
@@ -91,6 +99,14 @@ export const Dark: Story = {
     name: 'Regular (Dark)',
     args: {
         theme: 'dark',
+    },
+    argTypes: {
+        theme: {
+            name: 'Theme',
+            control: {
+                disable: true,
+            },
+        },
     },
 };
 

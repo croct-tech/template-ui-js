@@ -1,14 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,500&display=swap');
 
-@media (prefers-color-scheme: dark) {
-    .button {
-        --background: #fff;
-        --text: #1E293B;
-        --background-hover: #f8fafc;
-        --icon: #334155;
-    }
-}
-
 .button {
     --background: #0F172A;
     --text: #F1F5F9;
@@ -118,5 +109,14 @@
         --text: #F1F5F9;
         --background-hover: #1e293b;
         --icon: #E2E8F0;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .button {
+        --background: #fff;
+        --text: #1E293B;
+        --background-hover: #f8fafc;
+        --icon: #334155;
     }
 }

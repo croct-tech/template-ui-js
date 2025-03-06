@@ -210,7 +210,7 @@
 @media (prefers-color-scheme: dark) {
     .canvas {
         --background-solid: #0F172A;
-        --background-left-glow-from: #303397;
+        --background-left-glow-from: #3033974d;
         --background-right-glow-from: #04875E;
         --background-bottom-fade-from: #0F172A;
 
