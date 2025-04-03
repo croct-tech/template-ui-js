@@ -7,7 +7,7 @@
     "email": "lib+template-ui-js@croct.com",
     "url": "https://github.com/croct-tech/template-ui-js"
   },
-  "license": "UNLICENSED",
+  "license": "MIT",
   "keywords": [
     "croct",
     "personalization",
