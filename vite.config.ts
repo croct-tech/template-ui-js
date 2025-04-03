@@ -2,9 +2,10 @@ import {defineConfig} from 'vite';
 import {externalizeDeps} from 'vite-plugin-externalize-deps'
 import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts'
+import {fixImportsPlugin} from "esbuild-fix-imports-plugin";
 
 export default defineConfig({
-    plugins: [react(), externalizeDeps(), dts({
+    plugins: [react(), externalizeDeps(), fixImportsPlugin(), dts({
         exclude: ['**/*.stories.{ts,tsx}'],
     })],
     build: {
@@ -15,7 +16,7 @@ export default defineConfig({
                 'src/web/index.ts',
                 'src/web/registry.ts',
             ],
-            formats: ['es'],
+            formats: ['es', 'cjs'],
         },
         rollupOptions: {
             preserveEntrySignatures: 'strict',

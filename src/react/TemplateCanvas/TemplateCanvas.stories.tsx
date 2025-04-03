@@ -69,7 +69,7 @@ const meta: Meta<TemplateCanvasProps> = {
     tags: ['autodocs'],
 };
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof TemplateCanvas>;
 
 export const Inline: Story = {
     argTypes: {
