@@ -1,4 +1,4 @@
-name: Release
+name: Deploy published releases to CDN
 
 on:
   release:
@@ -14,8 +14,6 @@ jobs:
         with:
           registry-url: https://registry.npmjs.org
           node-version: 23
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Cache dependencies
         id: cache-dependencies
@@ -28,31 +26,9 @@ jobs:
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: npm ci
 
-      - name: Build package
-        run: npm run build
-
-      - name: Prepare release
-        run: |-
-          cp package.json LICENSE README.md build/
-          cd build
-          sed -i -e "s~\"version\": \"0.0.0-dev\"~\"version\": \"${GITHUB_REF##*/}\"~" package.json
-
-      - name: Publish pre-release to NPM
-        if: ${{ github.event.release.prerelease }}
-        run: |-
-          cd build
-          npm publish --tag next
-
-      - name: Publish release to NPM
-        if: ${{ !github.event.release.prerelease }}
-        run: |-
-          cd build
-          npm publish --access public
-
       - name: Bundle package
         if: ${{ !github.event.release.prerelease }}
         run: |-
-          rm -rf build
           npm run build-web-component
 
       - id: auth
