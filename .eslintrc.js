@@ -21,9 +21,15 @@ module.exports = {
     },
     overrides: [
         {
-            files: ['**/*.stories.ts'],
+            files: ['**/*.stories.{ts,tsx}'],
             rules: {
                 'import/no-default-export': 'off',
+            },
+        },
+        {
+            files: ['**/*.tsx'],
+            rules: {
+                'max-len': 'off',
             },
         },
     ],

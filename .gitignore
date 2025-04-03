@@ -3,3 +3,4 @@ build/
 coverage/
 *storybook.log
 storybook-static*
+.DS_Store

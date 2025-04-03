@@ -1,1 +1,2 @@
-import './LinkButton';
+export * from './LinkButton';
+export * from './TemplateCanvas';
