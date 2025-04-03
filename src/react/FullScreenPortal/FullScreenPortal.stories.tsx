@@ -32,8 +32,8 @@ type Story = StoryObj<typeof meta>;
 export const Example: Story = {
     args: {
     },
-    play: async () => {
-        const portal = document.body.querySelector('[id^="full-screen-portal-"]');
+    play: async ({canvasElement}) => {
+        const portal = canvasElement.parentElement?.querySelector('[id^="full-screen-portal-"]') ?? null;
 
         expect(portal).not.toBeNull();
 

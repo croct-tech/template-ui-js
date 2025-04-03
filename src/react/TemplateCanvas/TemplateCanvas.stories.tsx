@@ -99,8 +99,8 @@ export const Portal: Story = {
     args: {
         portal: true,
     },
-    play: async () => {
-        const portal = document.body.querySelector('[id^="full-screen-portal-"]');
+    play: async ({canvasElement}) => {
+        const portal = canvasElement.parentElement?.querySelector('[id^="full-screen-portal-"]') ?? null;
 
         expect(portal).not.toBeNull();
 
