@@ -3,6 +3,7 @@ import cls from 'clsx';
 import styles from './styles.module.css';
 import canvasCss from './styles.module.css?inline';
 import {linkButtonCss as buttonCss, LinkButton} from '../LinkButton';
+import {FullScreenPortal} from '../FullScreenPortal';
 
 export const templateCanvasCss = canvasCss + buttonCss;
 
@@ -51,9 +52,22 @@ export type TemplateCanvasProps = {
      * The template max height.
      */
     maxHeight?: number,
+
+    /**
+     * Whether to render the template in a portal.
+     */
+    portal?: boolean,
 };
 
 export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
+    if (props.portal === true) {
+        return (
+            <FullScreenPortal>
+                <TemplateCanvas {...props} portal={false} />
+            </FullScreenPortal>
+        );
+    }
+
     const {
         subBrandLabel = 'templates',
         subBrandLink = 'https://croct.com/templates',

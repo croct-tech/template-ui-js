@@ -71,7 +71,7 @@ const meta: Meta<TemplateCanvasProps> = {
 
 type Story = StoryObj<typeof meta>;
 
-export const Regular: Story = {
+export const Inline: Story = {
     argTypes: {
         theme: {
             name: 'Theme',
@@ -82,6 +82,29 @@ export const Regular: Story = {
     },
     play: async ({canvasElement}) => {
         const container = within(canvasElement);
+
+        await expect(container.getByRole('heading', {name: 'Testimonial grid', level: 1})).toBeInTheDocument();
+
+        await expect(container.getByText('/ templates')).toBeInTheDocument();
+
+        const cta = container.getByRole('link', {name: 'Edit content'});
+
+        await expect(cta).toBeInTheDocument();
+
+        await expect(cta).toHaveAttribute('href', 'https://app.croct.com');
+    },
+};
+
+export const Portal: Story = {
+    args: {
+        portal: true,
+    },
+    play: async () => {
+        const portal = document.body.querySelector('[id^="full-screen-portal-"]');
+
+        expect(portal).not.toBeNull();
+
+        const container = within(portal as HTMLElement);
 
         await expect(container.getByRole('heading', {name: 'Testimonial grid', level: 1})).toBeInTheDocument();
 
