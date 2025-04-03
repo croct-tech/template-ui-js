@@ -79,43 +79,44 @@ jobs:
         run: npm run lint
 
   test-interaction-and-accessibility:
-    - runs-on: ubuntu-latest
-    - name: Checkout commit
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 20
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-    - name: Cache dependencies
-      uses: actions/cache@v4
-      with:
-        path: node_modules
-        key: node_modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node_modules-${{ hashFiles('**/package-lock.json') }}
 
-    - name: Install dependencies
-      if: steps.cache-dependencies.outputs.cache-hit != 'true'
-      run: npm ci
+      - name: Install dependencies
+        if: steps.cache-dependencies.outputs.cache-hit != 'true'
+        run: npm ci
 
-    - name: Install Playwright
-      run: npx playwright install --with-deps
+      - name: Install Playwright
+        run: npx playwright install --with-deps
 
-    - name: Build React Storybook
-      run: npm run build-storybook-react
+      - name: Build React Storybook
+        run: npm run build-storybook-react
 
-    - name: Build Web component Storybook
-      run: npm run build-storybook-web-component
+      - name: Build Web component Storybook
+        run: npm run build-storybook-web-component
 
-    - name: Serve Web component Storybook and run tests
-      run: |
-        npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-          "npx http-server storybook-static/web-component --port 6008 --silent" \
-          "npx wait-on tcp:6008 && npm run test-storybook-web-component" 
+      - name: Serve Web component Storybook and run tests
+        run: |
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static/web-component --port 6008 --silent" \
+            "npx wait-on tcp:6008 && npm run test-storybook-web-component" 
 
-    - name: Serve Storybook and run tests
-      run: |
-        npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-          "npx http-server storybook-static/react --port 6007 --silent" \
-          "npx wait-on tcp:6007 && npm run test-storybook-react"
+      - name: Serve Storybook and run tests
+        run: |
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static/react --port 6007 --silent" \
+            "npx wait-on tcp:6007 && npm run test-storybook-react"
