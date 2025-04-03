@@ -32,9 +32,7 @@ jobs:
         run: npm ci
 
       - name: Check dependency vulnerabilities
-        run: |-
-          npm i -g npm-audit-resolver@3.0.0-7
-          npx check-audit --omit dev
+        run: npx check-audit --omit dev
 
   validate:
     runs-on: ubuntu-latest
