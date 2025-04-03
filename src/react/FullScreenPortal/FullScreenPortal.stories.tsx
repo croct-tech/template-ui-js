@@ -35,12 +35,11 @@ export const Example: Story = {
     play: async ({canvasElement}) => {
         const portal = canvasElement.parentElement?.querySelector('[id^="full-screen-portal-"]') ?? null;
 
-        expect(portal).not.toBeNull();
+        await expect(portal).not.toBeNull();
 
         const container = within(portal as HTMLElement);
 
-        await expect(await container.findByRole('This example is rendered in the body of the page.'))
-            .toBeInTheDocument();
+        await expect(container.getByRole('This example is rendered in the body of the page.')).toBeInTheDocument();
     },
 };
 

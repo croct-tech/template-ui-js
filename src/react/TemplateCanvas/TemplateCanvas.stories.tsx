@@ -102,15 +102,15 @@ export const Portal: Story = {
     play: async ({canvasElement}) => {
         const portal = canvasElement.parentElement?.querySelector('[id^="full-screen-portal-"]') ?? null;
 
-        expect(portal).not.toBeNull();
+        await expect(portal).not.toBeNull();
 
         const container = within(portal as HTMLElement);
 
-        await expect(await container.findByRole('heading', {name: 'Testimonial grid', level: 1})).toBeInTheDocument();
+        await expect(container.getByRole('heading', {name: 'Testimonial grid', level: 1})).toBeInTheDocument();
 
-        await expect(await container.findByRole('/ templates')).toBeInTheDocument();
+        await expect(container.getByRole('/ templates')).toBeInTheDocument();
 
-        const cta = await container.findByRole('link', {name: 'Edit content'});
+        const cta = container.getByRole('link', {name: 'Edit content'});
 
         await expect(cta).toBeInTheDocument();
 
