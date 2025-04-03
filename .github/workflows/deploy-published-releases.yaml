@@ -42,16 +42,12 @@ jobs:
         run: |-
           cd build
           npm publish --tag next
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish release to NPM
         if: ${{ !github.event.release.prerelease }}
         run: |-
           cd build
           npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Bundle package
         if: ${{ !github.event.release.prerelease }}
