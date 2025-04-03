@@ -1,4 +1,4 @@
-name: Release
+name: Deploy published releases to NPM
 
 on:
   release:
