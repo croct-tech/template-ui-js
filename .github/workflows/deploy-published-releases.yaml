@@ -74,5 +74,5 @@ jobs:
           TAG_MAJOR_VERSION=$(echo "${GITHUB_REF##*/}" | cut -d. -f1)
           MAJOR_VERSION=$(( TAG_MAJOR_VERSION < 1 ? 1 : TAG_MAJOR_VERSION ))
           VERSION_PATH="${MAJOR_VERSION}"
-          gsutil -m cp build/template-ui.mjs "gs://${GCLOUD_BUCKET}/js/template-ui@${VERSION_PATH}.mjs"
-          gsutil -m setmeta -h "Cache-Control: public, max-age=3600" "gs://${GCLOUD_BUCKET}/js/template-ui@${VERSION_PATH}.mjs"
+          gsutil -m cp build/template-ui.js "gs://${GCLOUD_BUCKET}/js/template-ui@${VERSION_PATH}.js"
+          gsutil -m setmeta -h "Cache-Control: public, max-age=3600" "gs://${GCLOUD_BUCKET}/js/template-ui@${VERSION_PATH}.js"
