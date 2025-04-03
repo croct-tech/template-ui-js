@@ -1,11 +1,9 @@
 import {FunctionComponent, ReactNode} from 'react';
 import cls from 'clsx';
 import styles from './styles.module.css';
-import canvasCss from './styles.module.css?inline';
-import {linkButtonCss as buttonCss, LinkButton} from '../LinkButton';
+import css from './styles.module.css?inline';
+import {LinkButton} from '../LinkButton';
 import {FullScreenPortal} from '../FullScreenPortal';
-
-export const templateCanvasCss = canvasCss + buttonCss;
 
 export type TemplateCanvasProps = {
     /**
@@ -81,45 +79,48 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
     } = props;
 
     return (
-        <div className={cls(styles.canvas, styles[theme ?? ''])}>
-            <div className={styles.backgrounds}>
-                <div className={styles['left-glow']} />
-                <div className={styles['right-glow']} />
-                <div className={styles['bottom-fade']} />
-            </div>
-            <div
-                style={{maxWidth: maxWidth}}
-                className={
-                    cls(styles.body, {
-                        [styles['fit-content']]: maxWidth !== undefined,
-                    })
-                }
-            >
-                <header className={styles.header}>
-                    <div className={styles.logo}>
-                        <Logo />
-                        <a className={styles.subbrand} href={subBrandLink}>
-                            / {subBrandLabel}
-                        </a>
-                    </div>
-                    <div className={styles['heading-group']}>
-                        <h1 className={styles.heading}>
-                            {title}
-                        </h1>
-                        <div className={styles.action}>
-                            <LinkButton
-                                theme={theme}
-                                href={ctaLink}
-                                label={ctaLabel}
-                            />
-                        </div>
-                    </div>
-                </header>
+        <div>
+            <style>{css}</style>
+            <div className={cls(styles.canvas, styles[theme ?? ''])}>
+                <div className={styles.backgrounds}>
+                    <div className={styles['left-glow']} />
+                    <div className={styles['right-glow']} />
+                    <div className={styles['bottom-fade']} />
+                </div>
                 <div
-                    className={styles.template}
-                    style={{maxHeight: maxHeight}}
+                    style={{maxWidth: maxWidth}}
+                    className={
+                        cls(styles.body, {
+                            [styles['fit-content']]: maxWidth !== undefined,
+                        })
+                    }
                 >
-                    {children}
+                    <header className={styles.header}>
+                        <div className={styles.logo}>
+                            <Logo />
+                            <a className={styles.subbrand} href={subBrandLink}>
+                                / {subBrandLabel}
+                            </a>
+                        </div>
+                        <div className={styles['heading-group']}>
+                            <h1 className={styles.heading}>
+                                {title}
+                            </h1>
+                            <div className={styles.action}>
+                                <LinkButton
+                                    theme={theme}
+                                    href={ctaLink}
+                                    label={ctaLabel}
+                                />
+                            </div>
+                        </div>
+                    </header>
+                    <div
+                        className={styles.template}
+                        style={{maxHeight: maxHeight}}
+                    >
+                        {children}
+                    </div>
                 </div>
             </div>
         </div>

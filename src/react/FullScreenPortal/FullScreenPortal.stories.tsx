@@ -1,8 +1,9 @@
 import type {Meta, StoryObj} from '@storybook/react';
-import {ReactElement} from 'react';
-import {expect, within} from '@storybook/test';
+import {Fragment, ReactElement} from 'react';
+import {expect, waitFor, within} from '@storybook/test';
 import {FullScreenPortal, FullScreenPortalProps} from './index.tsx';
-import style from './styles.module.css';
+import styles from './styles.module.css';
+import css from './styles.module.css?inline';
 
 const meta: Meta<FullScreenPortalProps> = {
     title: 'FullScreenPortal',
@@ -16,9 +17,12 @@ const meta: Meta<FullScreenPortalProps> = {
     ],
     args: {
         children: (
-            <div className={style.example}>
-                This example is rendered in the body of the page.
-            </div>
+            <Fragment>
+                <style>{css}</style>
+                <div className={styles.example}>
+                    This example is rendered in the body of the page.
+                </div>
+            </Fragment>
         ),
     },
     parameters: {
@@ -33,7 +37,21 @@ export const Example: Story = {
     args: {
     },
     play: async ({canvasElement}) => {
-        const container = within(canvasElement.parentElement as HTMLElement);
+        const containerElement = await waitFor(
+            () => {
+                const element = canvasElement.parentElement
+                    ?.querySelector('[id^="template-ui-portal-"]')
+                    ?.shadowRoot
+                    ?.firstElementChild ?? null;
+
+                expect(element).not.toBeNull();
+
+                return element as HTMLElement;
+            },
+            {timeout: 5000},
+        );
+
+        const container = within(containerElement);
 
         await expect(container.findByText('This example is rendered in the body of the page.'))
             .resolves

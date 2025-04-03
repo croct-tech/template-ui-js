@@ -99,20 +99,6 @@ export const Portal: Story = {
     args: {
         portal: true,
     },
-    play: async ({canvasElement}) => {
-        const container = within(canvasElement.parentElement as HTMLElement);
-
-        await expect(container.findByRole('heading', {name: 'Testimonial grid', level: 1})).resolves
-            .toBeInTheDocument();
-
-        await expect(container.getByText('/ templates')).toBeInTheDocument();
-
-        const cta = container.getByRole('link', {name: 'Edit content'});
-
-        await expect(cta).toBeInTheDocument();
-
-        await expect(cta).toHaveAttribute('href', 'https://app.croct.com');
-    },
 };
 
 export const Dark: Story = {

@@ -1,54 +1,49 @@
 'use client';
 
-import {FunctionComponent, ReactNode, useEffect, useId, useState} from 'react';
+import {CSSProperties, FunctionComponent, ReactNode, useEffect, useId, useState} from 'react';
 import {createPortal} from 'react-dom';
 
 export type FullScreenPortalProps = {
     children: ReactNode,
 };
 
+const overlayStyle: CSSProperties = {
+    position: 'fixed',
+    inset: 0,
+    zIndex: 9999,
+    background: 'white',
+    overflow: 'auto',
+};
+
 export const FullScreenPortal: FunctionComponent<FullScreenPortalProps> = ({children}) => {
+    const [shadowRoot, setShadowRoot] = useState<ShadowRoot | null>(null);
     const id = useId();
-    const [element, setElement] = useState<HTMLDivElement|null>(null);
 
     useEffect(
         () => {
-            const portal = document.createElement('div');
+            const host = document.createElement('div');
 
-            portal.id = `full-screen-portal-${id}`;
+            host.id = `template-ui-portal-${id}`;
 
             const originalOverflow = document.body.style.overflow;
 
             document.body.style.overflow = 'hidden';
+            document.body.appendChild(host);
 
-            document.body.appendChild(portal);
+            const shadow = host.attachShadow({mode: 'open'});
 
-            setElement(portal);
+            setShadowRoot(shadow);
 
             return () => {
                 document.body.style.overflow = originalOverflow;
 
-                portal.remove();
+                host.remove();
             };
         },
         [id],
     );
 
-    const portal = (
-        <div
-            style={{
-                position: 'fixed',
-                inset: 0,
-                zIndex: 9999,
-                background: 'white',
-                overflow: 'auto',
-            }}
-        >
-            {children}
-        </div>
-    );
-
-    return element === null
-        ? portal
-        : createPortal(portal, element);
+    return shadowRoot === null
+        ? <div style={overlayStyle} />
+        : createPortal(<div style={overlayStyle}>{children}</div>, shadowRoot);
 };
