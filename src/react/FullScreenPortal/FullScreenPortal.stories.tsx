@@ -35,7 +35,9 @@ export const Example: Story = {
     play: async ({canvasElement}) => {
         const container = within(canvasElement.parentElement as HTMLElement);
 
-        await expect(container.getByRole('This example is rendered in the body of the page.')).toBeInTheDocument();
+        await expect(container.findByText('This example is rendered in the body of the page.'))
+            .resolves
+            .toBeInTheDocument();
     },
 };
 

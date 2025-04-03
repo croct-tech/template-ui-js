@@ -102,7 +102,8 @@ export const Portal: Story = {
     play: async ({canvasElement}) => {
         const container = within(canvasElement.parentElement as HTMLElement);
 
-        await expect(container.getByRole('heading', {name: 'Testimonial grid', level: 1})).toBeInTheDocument();
+        await expect(container.findByRole('heading', {name: 'Testimonial grid', level: 1})).resolves
+            .toBeInTheDocument();
 
         await expect(container.getByRole('/ templates')).toBeInTheDocument();
 
