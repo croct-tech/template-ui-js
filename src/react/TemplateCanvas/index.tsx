@@ -1,3 +1,5 @@
+'use client';
+
 import {FunctionComponent, ReactNode} from 'react';
 import cls from 'clsx';
 import styles from './styles.module.css';
