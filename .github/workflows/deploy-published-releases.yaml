@@ -47,7 +47,7 @@ jobs:
         if: ${{ !github.event.release.prerelease }}
         run: |-
           cd build
-          npm publish
+          npm publish --access public
 
       - name: Bundle package
         if: ${{ !github.event.release.prerelease }}
