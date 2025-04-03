@@ -8,6 +8,7 @@ export default defineConfig({
     },
     build: {
         outDir: 'build',
+        minify: true,
         lib: {
             fileName: 'template-ui',
             entry: 'src/web/registry.ts',

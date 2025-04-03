@@ -1,9 +1,7 @@
-import {FunctionComponent} from 'react';
+import {Fragment, FunctionComponent} from 'react';
 import cls from 'clsx';
 import styles from './styles.module.css';
-import linkButtonCss from './styles.module.css?inline';
-
-export {linkButtonCss};
+import css from './styles.module.css?inline';
 
 type Size = 'md' | 'lg';
 
@@ -43,24 +41,27 @@ export const LinkButton: FunctionComponent<LinkButtonProps> = props => {
     const {href, theme = '', branded = false, position = '', label, size = 'md'} = props;
 
     return (
-        <a
-            href={href}
-            className={
-                cls(styles.button, styles[position], styles[theme], sizeStyleMap[size], {
-                    [styles.branded]: branded,
-                })
-            }
-        >
-            {branded && (
-                <div className={styles.logo}>
-                    <Logo />
+        <Fragment>
+            <style>{css}</style>
+            <a
+                href={href}
+                className={
+                    cls(styles.button, styles[position], styles[theme], sizeStyleMap[size], {
+                        [styles.branded]: branded,
+                    })
+                }
+            >
+                {branded && (
+                    <div className={styles.logo}>
+                        <Logo />
+                    </div>
+                )}
+                {label}
+                <div className={styles.icon}>
+                    <ArrowRightIcon />
                 </div>
-            )}
-            {label}
-            <div className={styles.icon}>
-                <ArrowRightIcon />
-            </div>
-        </a>
+            </a>
+        </Fragment>
     );
 };
 

@@ -1,8 +1,9 @@
 import type {Meta, StoryObj} from '@storybook/react';
-import {ReactElement} from 'react';
+import {Fragment, ReactElement} from 'react';
 import {expect, within} from '@storybook/test';
 import {FullScreenPortal, FullScreenPortalProps} from './index.tsx';
-import style from './styles.module.css';
+import styles from './styles.module.css';
+import css from './styles.module.css?inline';
 
 const meta: Meta<FullScreenPortalProps> = {
     title: 'FullScreenPortal',
@@ -16,9 +17,12 @@ const meta: Meta<FullScreenPortalProps> = {
     ],
     args: {
         children: (
-            <div className={style.example}>
-                This example is rendered in the body of the page.
-            </div>
+            <Fragment>
+                <style>{css}</style>
+                <div className={styles.example}>
+                    This example is rendered in the body of the page.
+                </div>
+            </Fragment>
         ),
     },
     parameters: {
