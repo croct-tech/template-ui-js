@@ -33,7 +33,7 @@ jobs:
 
       - name: Prepare release
         run: |-
-          cp package.json LICENSE README.md build/
+          cp LICENSE README.md build/
           cd build
           sed -i -e "s~\"version\": \"0.0.0-dev\"~\"version\": \"${GITHUB_REF##*/}\"~" package.json
 
@@ -48,31 +48,3 @@ jobs:
         run: |-
           cd build
           npm publish --access public
-
-      - name: Bundle package
-        if: ${{ !github.event.release.prerelease }}
-        run: |-
-          rm -rf build
-          npm run build-web-component
-
-      - id: auth
-        name: Authenticate to Google Cloud
-        if: ${{ !github.event.release.prerelease }}
-        uses: google-github-actions/auth@v2
-        with:
-          workload_identity_provider: '${{ secrets.GCLOUD_WORKLOAD_IDENTITY }}'
-          service_account: '${{ secrets.GCLOUD_SERVICE_ACCOUNT }}'
-
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v2
-
-      - name: Deploy to GCS
-        if: ${{ !github.event.release.prerelease }}
-        env:
-          GCLOUD_BUCKET: ${{ secrets.GCLOUD_BUCKET }}
-        run: |-
-          TAG_MAJOR_VERSION=$(echo "${GITHUB_REF##*/}" | cut -d. -f1)
-          MAJOR_VERSION=$(( TAG_MAJOR_VERSION < 1 ? 1 : TAG_MAJOR_VERSION ))
-          VERSION_PATH="${MAJOR_VERSION}"
-          gsutil -m cp build/template-ui.js "gs://${GCLOUD_BUCKET}/js/template-ui@${VERSION_PATH}.js"
-          gsutil -m setmeta -h "Cache-Control: public, max-age=3600" "gs://${GCLOUD_BUCKET}/js/template-ui@${VERSION_PATH}.js"

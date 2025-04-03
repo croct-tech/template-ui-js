@@ -1,0 +1,56 @@
+name: Deploy published releases to CDN
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          registry-url: https://registry.npmjs.org
+          node-version: 23
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node_modules-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install dependencies
+        if: steps.cache-dependencies.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Bundle package
+        if: ${{ !github.event.release.prerelease }}
+        run: |-
+          npm run build-web-component
+
+      - id: auth
+        name: Authenticate to Google Cloud
+        if: ${{ !github.event.release.prerelease }}
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: '${{ secrets.GCLOUD_WORKLOAD_IDENTITY }}'
+          service_account: '${{ secrets.GCLOUD_SERVICE_ACCOUNT }}'
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Deploy to GCS
+        if: ${{ !github.event.release.prerelease }}
+        env:
+          GCLOUD_BUCKET: ${{ secrets.GCLOUD_BUCKET }}
+        run: |-
+          TAG_MAJOR_VERSION=$(echo "${GITHUB_REF##*/}" | cut -d. -f1)
+          MAJOR_VERSION=$(( TAG_MAJOR_VERSION < 1 ? 1 : TAG_MAJOR_VERSION ))
+          VERSION_PATH="${MAJOR_VERSION}"
+          gsutil -m cp build/template-ui.js "gs://${GCLOUD_BUCKET}/js/template-ui@${VERSION_PATH}.js"
+          gsutil -m setmeta -h "Cache-Control: public, max-age=3600" "gs://${GCLOUD_BUCKET}/js/template-ui@${VERSION_PATH}.js"
