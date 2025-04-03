@@ -1,4 +1,4 @@
-import type {Meta, StoryFn, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react';
 import {within, expect} from '@storybook/test';
 import {LinkButton, LinkButtonProps} from './index.tsx';
 
@@ -16,7 +16,7 @@ const meta: Meta<LinkButtonProps> = {
 
 export default meta;
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof LinkButton>;
 
 export const Regular: Story = {
     args: {
@@ -30,19 +30,17 @@ export const Regular: Story = {
     },
 };
 
-const SizesTemplate: StoryFn<LinkButtonProps> = args => (
-    <div style={{display: 'flex', alignItems: 'center', gap: 16}}>
-        <LinkButton {...args} size="md" />
-        <LinkButton {...args} size="lg" />
-    </div>
-);
-
 export const Sizes: Story = {
     args: {
         href: 'https://app.croct.com',
         label: 'Edit content',
     },
-    render: SizesTemplate,
+    render: (args: LinkButtonProps) => (
+        <div style={{display: 'flex', alignItems: 'center', gap: 16}}>
+            <LinkButton {...args} size="md" />
+            <LinkButton {...args} size="lg" />
+        </div>
+    ),
 };
 
 export const Branded: Story = {
