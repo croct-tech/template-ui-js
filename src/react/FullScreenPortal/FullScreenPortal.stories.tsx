@@ -39,7 +39,8 @@ export const Example: Story = {
 
         const container = within(portal as HTMLElement);
 
-        await expect(container.getByText('This example is rendered in the body of the page.')).toBeInTheDocument();
+        await expect(await container.findByRole('This example is rendered in the body of the page.'))
+            .toBeInTheDocument();
     },
 };
 

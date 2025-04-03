@@ -106,11 +106,11 @@ export const Portal: Story = {
 
         const container = within(portal as HTMLElement);
 
-        await expect(container.getByRole('heading', {name: 'Testimonial grid', level: 1})).toBeInTheDocument();
+        await expect(await container.findByRole('heading', {name: 'Testimonial grid', level: 1})).toBeInTheDocument();
 
-        await expect(container.getByText('/ templates')).toBeInTheDocument();
+        await expect(await container.findByRole('/ templates')).toBeInTheDocument();
 
-        const cta = container.getByRole('link', {name: 'Edit content'});
+        const cta = await container.findByRole('link', {name: 'Edit content'});
 
         await expect(cta).toBeInTheDocument();
 
