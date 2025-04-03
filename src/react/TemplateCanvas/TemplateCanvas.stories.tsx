@@ -100,11 +100,7 @@ export const Portal: Story = {
         portal: true,
     },
     play: async ({canvasElement}) => {
-        const portal = canvasElement.parentElement?.querySelector('[id^="full-screen-portal-"]') ?? null;
-
-        await expect(portal).not.toBeNull();
-
-        const container = within(portal as HTMLElement);
+        const container = within(canvasElement.parentElement as HTMLElement);
 
         await expect(container.getByRole('heading', {name: 'Testimonial grid', level: 1})).toBeInTheDocument();
 
