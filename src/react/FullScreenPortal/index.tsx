@@ -16,34 +16,33 @@ const overlayStyle: CSSProperties = {
 };
 
 export const FullScreenPortal: FunctionComponent<FullScreenPortalProps> = ({children}) => {
-    const [shadowRoot, setShadowRoot] = useState<ShadowRoot | null>(null);
     const id = useId();
+    const [host, setHost] = useState<HTMLDivElement|null>(null);
 
     useEffect(
         () => {
-            const host = document.createElement('div');
+            const container = document.createElement('div');
 
-            host.id = `template-ui-portal-${id}`;
+            container.id = `full-screen-portal-${id}`;
 
             const originalOverflow = document.body.style.overflow;
 
             document.body.style.overflow = 'hidden';
-            document.body.appendChild(host);
 
-            const shadow = host.attachShadow({mode: 'open'});
+            document.body.appendChild(container);
 
-            setShadowRoot(shadow);
+            setHost(container);
 
             return () => {
                 document.body.style.overflow = originalOverflow;
 
-                host.remove();
+                container.remove();
             };
         },
         [id],
     );
 
-    return shadowRoot === null
+    return host === null
         ? <div style={overlayStyle} />
-        : createPortal(<div style={overlayStyle}>{children}</div>, shadowRoot);
+        : createPortal(<div style={overlayStyle}>{children}</div>, host);
 };
