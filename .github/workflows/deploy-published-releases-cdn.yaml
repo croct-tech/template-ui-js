@@ -14,8 +14,6 @@ jobs:
         with:
           registry-url: https://registry.npmjs.org
           node-version: 23
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Cache dependencies
         id: cache-dependencies
