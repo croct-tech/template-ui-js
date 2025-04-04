@@ -31,5 +31,7 @@ function getEmbeddedUrl(pathname: string, searchParams: URLSearchParams): string
 
     embeddedParams.set(embeddedFlag, 'true');
 
-    return `${pathname}${embeddedParams}`;
+    const queryString = embeddedParams.toString();
+
+    return `${pathname}${queryString === '' ? '' : `?${queryString}`}`;
 }
