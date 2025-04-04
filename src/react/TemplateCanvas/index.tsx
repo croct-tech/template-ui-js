@@ -74,7 +74,13 @@ export type TemplateCanvasProps = {
     fullScreen?: boolean,
 };
 
+export const embeddedFlag = '__embedded';
+
 export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
+    if (isEmbedded()) {
+        return props.children;
+    }
+
     if (props.portal === true) {
         return (
             <FullScreenPortal>
@@ -148,7 +154,13 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
                         {
                             src === undefined
                                 ? children
-                                : (<iframe title={title} src={src} className={styles.iframe} />)
+                                : (
+                                    <iframe
+                                        title={title}
+                                        src={src === '#' ? `?${embeddedFlag}` : src}
+                                        className={styles.iframe}
+                                    />
+                                )
                         }
                     </div>
                 </div>
@@ -156,6 +168,10 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
         </div>
     );
 };
+
+function isEmbedded(): boolean {
+    return typeof window !== 'undefined' && new URL(window.location.href).searchParams.has(embeddedFlag);
+}
 
 const Logo: FunctionComponent = () => (
     <svg width="94" height="20" viewBox="0 0 94 20" fill="none" xmlns="http://www.w3.org/2000/svg">
