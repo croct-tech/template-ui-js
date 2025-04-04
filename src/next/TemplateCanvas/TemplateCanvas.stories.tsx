@@ -113,6 +113,15 @@ export const Iframe: Story = {
         src: 'iframe.html?viewMode=docs&id=templatecanvas--docs',
         fullScreen: true,
     },
+    play: async ({canvasElement, args}) => {
+        const container = within(canvasElement);
+
+        const iframe = container.getByTitle(args.title) as HTMLIFrameElement;
+
+        await expect(iframe).toBeInTheDocument();
+
+        await expect(iframe).toHaveAttribute('src', args.src);
+    },
 };
 
 export const SelfEmbedded: Story = {
@@ -127,7 +136,7 @@ export const SelfEmbedded: Story = {
 
         await expect(iframe).toBeInTheDocument();
 
-        await expect(iframe).toHaveAttribute('src', '/?__embedded=true');
+        await expect(iframe).toHaveAttribute('src', `/?${embeddedFlag}=true`);
     },
 };
 
