@@ -1,6 +1,6 @@
 'use client';
 
-import {Fragment, FunctionComponent, ReactNode, useId} from 'react';
+import {Fragment, FunctionComponent, ReactNode, useEffect, useState} from 'react';
 import cls from 'clsx';
 import styles from './styles.module.css';
 import css from './styles.module.css?inline';
@@ -67,10 +67,17 @@ export type TemplateCanvasProps = {
      * Whether to render the template in a portal.
      */
     portal?: boolean,
+
+    /**
+     * Whether to render the template in full screen.
+     */
+    fullScreen?: boolean,
 };
 
 export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
-    const id = useId();
+    const [embedded, setEmbedded] = useState(isEmbedded);
+
+    useEffect(() => setEmbedded(isEmbedded()), []);
 
     if (props.portal === true) {
         return (
@@ -91,10 +98,11 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
         maxWidth,
         minHeight,
         maxHeight,
+        fullScreen = false,
         src,
     } = props;
 
-    if (src !== undefined && isEmbedded(id)) {
+    if (embedded) {
         return <Fragment>{children}</Fragment>;
     }
 
@@ -102,7 +110,7 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
         <div>
             {/* eslint-disable-next-line react/no-danger -- Needed to inject raw CSS without escaping */}
             <style dangerouslySetInnerHTML={{__html: css}} />
-            <div className={cls(styles.canvas, styles[theme ?? ''])}>
+            <div className={cls(styles.canvas, styles[theme ?? ''], {[styles['full-screen']]: fullScreen})}>
                 <div className={styles.backgrounds}>
                     <div className={styles['left-glow']} />
                     <div className={styles['right-glow']} />
@@ -148,7 +156,7 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
                         {
                             src === undefined
                                 ? children
-                                : (<iframe title={title} src={createIframeSrc(src, id)} className={styles.iframe} />)
+                                : (<iframe title={title} src={src} className={styles.iframe} />)
                         }
                     </div>
                 </div>
@@ -166,23 +174,6 @@ const Logo: FunctionComponent = () => (
     </svg>
 );
 
-function isEmbedded(id: string): boolean {
-    return typeof window !== 'undefined'
-        && new URL(window.location.href).searchParams.has(getIframeFlag(id));
-}
-
-function createIframeSrc(url: string, id: string): string {
-    const iframeUrl = new URL(url, 'https://localhost');
-
-    iframeUrl.searchParams.set(getIframeFlag(id), 'true');
-
-    if (URL.canParse(url)) {
-        return iframeUrl.toString();
-    }
-
-    return iframeUrl.pathname + iframeUrl.search + iframeUrl.hash;
-}
-
-function getIframeFlag(id: string): string {
-    return `__iframe${id}`;
+function isEmbedded(): boolean {
+    return typeof window !== 'undefined' && new URL(window.location.href).searchParams.has('__embedded');
 }

@@ -111,7 +111,7 @@ export const Portal: Story = {
 export const Iframe: Story = {
     args: {
         src: 'iframe.html?viewMode=docs&id=templatecanvas--docs',
-        minHeight: '50vh',
+        fullScreen: true,
     },
 };
 

@@ -49,6 +49,20 @@
     display: flex;
     justify-content: center;
 
+    &.full-screen {
+        width: 100vw;
+        height: 100vh;
+
+        & > .body {
+            display: flex;
+            flex-direction: column;
+
+            & > .template {
+                flex-grow: 1;
+            }
+        }
+    }
+
     &.dark {
         --background-solid: #0F172A;
         --background-left-glow-from: #3033974d;
@@ -154,7 +168,7 @@
                 align-items: center;
                 color: var(--logo);
 
-                & > a.subbrand {
+                & > .subbrand {
                     height: var(--subbrand-height);
                     text-decoration: none;
                     margin-left: var(--subbrand-margin);
@@ -176,7 +190,7 @@
                 justify-content: space-between;
                 align-items: center;
 
-                & > h1.heading {
+                & > .heading {
                     width: 100%;
                     font-family: 'Poppins';
                     font-weight: 500;
@@ -207,7 +221,7 @@
                     align-items: start;
                     gap: 24px;
 
-                    h1.heading {
+                    .heading {
                         white-space: normal;
                         display: -webkit-box;
                         overflow: hidden;
@@ -258,7 +272,7 @@
                         margin-left: 0;
                     }
 
-                    & > h1.heading {
+                    & > .heading {
                         white-space: normal;
                         display: -webkit-box;
                         overflow: hidden;
