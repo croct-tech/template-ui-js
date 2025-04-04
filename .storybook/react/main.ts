@@ -12,11 +12,11 @@ const config: StorybookConfig = {
   framework: "@storybook/react-vite",
   refs: {
     "next": {
-      title: "Web Components",
+      title: "Next",
       url: "http://localhost:6008"
     },
     "web-components": {
-        title: "Web Components",
+        title: "Web components",
         url: "http://localhost:6009"
     }
   },
