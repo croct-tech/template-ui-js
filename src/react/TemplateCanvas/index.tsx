@@ -157,7 +157,7 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
                                 : (
                                     <iframe
                                         title={title}
-                                        src={src === '#' ? getIframeUrl() : src}
+                                        src={src === '#' ? getEmbeddedUrl() : src}
                                         className={styles.iframe}
                                     />
                                 )
@@ -173,7 +173,7 @@ function isEmbedded(): boolean {
     return typeof window !== 'undefined' && new URL(window.location.href).searchParams.has(embeddedFlag);
 }
 
-function getIframeUrl(): string {
+function getEmbeddedUrl(): string {
     const iframeUrl = new URL(window.location.href);
 
     iframeUrl.searchParams.set(embeddedFlag, 'true');

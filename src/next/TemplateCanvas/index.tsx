@@ -18,5 +18,18 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
         return props.children;
     }
 
-    return (<ReactTemplateCanvas {...props} src={pathname + searchParams} />);
+    return (
+        <ReactTemplateCanvas
+            {...props}
+            src={props.src === '#' ? getEmbeddedUrl(pathname, searchParams) : props.src}
+        />
+    );
 };
+
+function getEmbeddedUrl(pathname: string, searchParams: URLSearchParams): string {
+    const embeddedParams = new URLSearchParams(searchParams.toString());
+
+    embeddedParams.set(embeddedFlag, 'true');
+
+    return `${pathname}${embeddedParams}`;
+}
