@@ -9,16 +9,18 @@ const config: StorybookConfig = {
     "@chromatic-com/storybook",
     "@storybook/experimental-addon-test"
   ],
-  framework: {
-    "name": "@storybook/react-vite",
-    "options": {}
-  },
+  framework: "@storybook/react-vite",
   refs: {
+    "next": {
+      title: "Next",
+      url: "http://localhost:6008"
+    },
     "web-components": {
-        title: "Web Components",
-        url: "http://localhost:6008"
+        title: "Web components",
+        url: "http://localhost:6009"
     }
   },
+  staticDirs: ['../public'],
   core: {
     disableTelemetry: true
   }

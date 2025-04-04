@@ -39,27 +39,48 @@ export type TemplateCanvasProps = {
     theme?: 'light' | 'dark',
 
     /**
+     * Render the template in an iframe.
+     */
+    src?: string,
+
+    /**
      * The template component to be shown.
      */
-    children: ReactNode,
+    children?: ReactNode,
 
     /**
      * The template max width.
      */
-    maxWidth?: number,
+    maxWidth?: string | number,
+
+    /**
+     * The template min height.
+     */
+    minHeight?: string | number,
 
     /**
      * The template max height.
      */
-    maxHeight?: number,
+    maxHeight?: string | number,
 
     /**
      * Whether to render the template in a portal.
      */
     portal?: boolean,
+
+    /**
+     * Whether to render the template in full screen.
+     */
+    fullScreen?: boolean,
 };
 
+export const embeddedFlag = '__embedded';
+
 export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
+    if (isEmbedded()) {
+        return props.children;
+    }
+
     if (props.portal === true) {
         return (
             <FullScreenPortal>
@@ -77,20 +98,26 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
         ctaLink,
         ctaLabel,
         maxWidth,
+        minHeight,
         maxHeight,
+        fullScreen = false,
+        src,
     } = props;
 
     return (
         <div>
-            <style>{css}</style>
-            <div className={cls(styles.canvas, styles[theme ?? ''])}>
+            {/* eslint-disable-next-line react/no-danger -- Needed to inject raw CSS without escaping */}
+            <style dangerouslySetInnerHTML={{__html: css}} />
+            <div className={cls(styles.canvas, styles[theme ?? ''], {[styles['full-screen']]: fullScreen})}>
                 <div className={styles.backgrounds}>
                     <div className={styles['left-glow']} />
                     <div className={styles['right-glow']} />
                     <div className={styles['bottom-fade']} />
                 </div>
                 <div
-                    style={{maxWidth: maxWidth}}
+                    style={{
+                        maxWidth: maxWidth,
+                    }}
                     className={
                         cls(styles.body, {
                             [styles['fit-content']]: maxWidth !== undefined,
@@ -119,15 +146,40 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
                     </header>
                     <div
                         className={styles.template}
-                        style={{maxHeight: maxHeight}}
+                        style={{
+                            minHeight: minHeight,
+                            maxHeight: maxHeight,
+                        }}
                     >
-                        {children}
+                        {
+                            src === undefined
+                                ? children
+                                : (
+                                    <iframe
+                                        title={title}
+                                        src={src === '#' ? getEmbeddedUrl() : src}
+                                        className={styles.iframe}
+                                    />
+                                )
+                        }
                     </div>
                 </div>
             </div>
         </div>
     );
 };
+
+function isEmbedded(): boolean {
+    return typeof window !== 'undefined' && new URL(window.location.href).searchParams.has(embeddedFlag);
+}
+
+function getEmbeddedUrl(): string {
+    const iframeUrl = new URL(window.location.href);
+
+    iframeUrl.searchParams.set(embeddedFlag, 'true');
+
+    return iframeUrl.pathname + iframeUrl.search + iframeUrl.hash;
+}
 
 const Logo: FunctionComponent = () => (
     <svg width="94" height="20" viewBox="0 0 94 20" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -35,19 +35,30 @@
     "build-web-component": "tsc -b && vite build --config vite.web.config.ts",
     "build": "tsc -b && vite build",
     "postbuild": "./post-build.mjs",
-    "storybook-web-component": "storybook dev -p 6008 --config-dir .storybook/web",
     "storybook-react": "storybook dev -p 6007 --config-dir .storybook/react",
-    "build-storybook-web-component": "storybook build --config-dir .storybook/web --output-dir storybook-static/web-component",
+    "storybook-next": "storybook dev -p 6008 --config-dir .storybook/next",
+    "storybook-web-component": "storybook dev -p 6009 --config-dir .storybook/web",
     "build-storybook-react": "storybook build --config-dir .storybook/react --output-dir storybook-static/react",
+    "build-storybook-next": "storybook build --config-dir .storybook/next --output-dir storybook-static/next",
+    "build-storybook-web-component": "storybook build --config-dir .storybook/web --output-dir storybook-static/web-component",
     "build-storybook": "storybook build",
-    "test-storybook-web-component": "test-storybook -c .storybook/web --url http://127.0.0.1:6008",
-    "test-storybook-react": "test-storybook -c .storybook/react --url http://127.0.0.1:6007"
+    "test-storybook-react": "test-storybook -c .storybook/react --url http://127.0.0.1:6007",
+    "test-storybook-next": "test-storybook -c .storybook/next --url http://127.0.0.1:6008",
+    "test-storybook-web-component": "test-storybook -c .storybook/web --url http://127.0.0.1:6009"
   },
   "dependencies": {
     "@r2wc/react-to-web-component": "^2.0.4",
     "clsx": "^2.1.1",
     "react": "^18.0 || ^19.0",
     "react-dom": "^18.0 || ^19.0"
+  },
+  "peerDependencies": {
+    "next": "^13.0.0 || ^14.0.0 || ^15.0.0"
+  },
+  "peerDependenciesMeta": {
+    "next": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.5",
@@ -57,6 +68,7 @@
     "@storybook/addon-themes": "^8.6.3",
     "@storybook/blocks": "^8.6.3",
     "@storybook/experimental-addon-test": "^8.6.3",
+    "@storybook/nextjs": "^8.6.12",
     "@storybook/react": "^8.6.3",
     "@storybook/react-vite": "^8.6.3",
     "@storybook/test": "^8.6.3",

@@ -42,7 +42,8 @@ export const LinkButton: FunctionComponent<LinkButtonProps> = props => {
 
     return (
         <Fragment>
-            <style>{css}</style>
+            {/* eslint-disable-next-line react/no-danger -- Needed to inject raw CSS without escaping */}
+            <style dangerouslySetInnerHTML={{__html: css}} />
             <a
                 href={href}
                 className={
