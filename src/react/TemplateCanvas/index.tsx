@@ -82,7 +82,8 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
 
     return (
         <div>
-            <style>{css}</style>
+            {/* eslint-disable-next-line react/no-danger -- Needed to inject raw CSS without escaping */}
+            <style dangerouslySetInnerHTML={{__html: css}} />
             <div className={cls(styles.canvas, styles[theme ?? ''])}>
                 <div className={styles.backgrounds}>
                     <div className={styles['left-glow']} />
