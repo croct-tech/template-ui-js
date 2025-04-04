@@ -75,7 +75,7 @@ export type TemplateCanvasProps = {
 };
 
 export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
-    const [embedded, setEmbedded] = useState(false);
+    const [embedded, setEmbedded] = useState(props.src === '#');
 
     // The window object is not available in SSR, so it needs to be updated
     // after the component is mounted.
@@ -158,7 +158,7 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
                         {
                             src === undefined
                                 ? children
-                                : (<iframe title={title} src={src} className={styles.iframe} />)
+                                : (<iframe title={title} src={getIframeUrl(src)} className={styles.iframe} />)
                         }
                     </div>
                 </div>
@@ -176,6 +176,16 @@ const Logo: FunctionComponent = () => (
     </svg>
 );
 
+const embeddedFlag = '__embedded';
+
 function isEmbedded(): boolean {
-    return typeof window !== 'undefined' && new URL(window.location.href).searchParams.has('__embedded');
+    return typeof window !== 'undefined' && new URL(window.location.href).searchParams.has(embeddedFlag);
+}
+
+function getIframeUrl(url: string): string {
+    if (url === '#') {
+        return `?${embeddedFlag}`;
+    }
+
+    return url;
 }
