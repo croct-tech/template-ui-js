@@ -81,14 +81,6 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
     // after the component is mounted.
     useEffect(() => setEmbedded(isEmbedded()), []);
 
-    if (props.portal === true) {
-        return (
-            <FullScreenPortal>
-                <TemplateCanvas {...props} portal={false} />
-            </FullScreenPortal>
-        );
-    }
-
     const {
         subBrandLabel = 'templates',
         subBrandLink = 'https://croct.com/templates',
@@ -106,6 +98,14 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
 
     if (embedded) {
         return <Fragment>{children}</Fragment>;
+    }
+
+    if (props.portal === true) {
+        return (
+            <FullScreenPortal>
+                <TemplateCanvas {...props} portal={false} />
+            </FullScreenPortal>
+        );
     }
 
     return (
