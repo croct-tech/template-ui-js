@@ -124,5 +124,5 @@ jobs:
         run: |
           npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
             "npx http-server storybook-static/web-component --port 6009 --silent" \
-            "npx wait-on tcp:6008 && npm run test-storybook-web-component" 
+            "npx wait-on tcp:6009 && npm run test-storybook-web-component" 
 
