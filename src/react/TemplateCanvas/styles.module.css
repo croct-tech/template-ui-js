@@ -3,21 +3,16 @@
 
 .canvas {
     --background-solid: #FFFFFF;
-
     --background-left-glow-from: #e0e1ff80;
     --background-left-glow-to: transparent;
-
     --background-right-glow-from: #a7f3d0b3;
     --background-right-glow-to: transparent;
-
     --background-bottom-fade-from: #FFFFFF;
     --background-bottom-fade-to: transparent;
-
     --logo: #202020;
     --sub-brand: #64748B;
     --sub-brand-hover: #475569;
     --heading: #0F172A;
-
     --template-border: #E2E8F0;
     --template-background: #FFFFFF;
 
