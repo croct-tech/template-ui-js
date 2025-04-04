@@ -3,10 +3,18 @@
 
 .canvas {
     --background-solid: #FFFFFF;
+
+    --background-left-glow-width: 640px;
+    --background-left-glow-height: 375px;
     --background-left-glow-from: #e0e1ff80;
     --background-left-glow-to: transparent;
+
+    --background-right-glow-width: 640px;
+    --background-right-glow-height: 375px;
     --background-right-glow-from: #a7f3d0b3;
     --background-right-glow-to: transparent;
+
+    --background-bottom-fade-height: 160px;
     --background-bottom-fade-from: #FFFFFF;
     --background-bottom-fade-to: transparent;
 
@@ -17,6 +25,22 @@
 
     --template-border: #E2E8F0;
     --template-background: #FFFFFF;
+
+    --body-padding: 48px 24px 72px 24px;
+
+    --header-margin: 40px;
+
+    --heading-group-margin: 56px;
+
+    --heading-font-size: 32px;
+
+    --subbrand-height: 20px;
+    --subbrand-margin: 8px;
+    --subbrand-line-height: 20.8px;
+    --subbrand-font-size: 16px;
+
+    --template-border-radius: 16px;
+    --template-padding: 32px;
 
     position: relative;
     background-color: var(--background-solid);
@@ -68,8 +92,8 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 40rem;
-            height: 375px;
+            width: var(--background-left-glow-width);
+            height: var(--background-left-glow-height);
             opacity: 0.8;
             background-image: radial-gradient(
                 100% 170% at 0% 100%,
@@ -82,8 +106,8 @@
             position: absolute;
             top: 0;
             right: 0;
-            width: 40rem;
-            height: 375px;
+            width: var(--background-right-glow-width);
+            height: var(--background-right-glow-height);
             opacity: 0.2;
             background-image: radial-gradient(
                 100% 170.67% at 100% 100%,
@@ -97,7 +121,7 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 10rem;
+            height: var(--background-bottom-fade-height);
             background-image: linear-gradient(
                 0deg,
                 var(--background-bottom-fade-from) 0%,
@@ -108,22 +132,22 @@
 
     & > .body {
         width: 100%;
-        padding: 3rem 1.5rem 4.5rem 1.5rem;
+        padding: var(--body-padding);
         isolation: isolate;
 
         @media screen and (min-width: 1024px) {
-            padding: 3rem 4rem 4.5rem 4rem;
+            --body-padding: 48px 64px 72px 64px;
         }
 
         @media screen and (min-width: 1280px) {
-            padding: 3rem 7.5rem 4.5rem 7.5rem;
+            --body-padding: 48px 120px 72px 120px;
         }
 
         & > .header {
             width: 100%;
             display: flex;
             flex-direction: column;
-            margin-bottom: 2.5rem;
+            margin-bottom: var(--header-margin);
 
             & > .logo {
                 display: flex;
@@ -131,13 +155,13 @@
                 color: var(--logo);
 
                 & > a.subbrand {
-                    height: 1.25rem;
+                    height: var(--subbrand-height);
                     text-decoration: none;
-                    margin-left: 0.5rem;
+                    margin-left: var(--subbrand-margin);
                     font-family: 'Inter';
                     font-weight: 400;
-                    line-height: 1.3rem;
-                    font-size: 1rem;
+                    line-height: var(--subbrand-line-height);
+                    font-size: var(--subbrand-font-size);
                     color: var(--sub-brand);
 
                     &:hover {
@@ -147,7 +171,7 @@
             };
 
             & > .heading-group {
-                margin-top: 3.5rem;
+                margin-top: var(--heading-group-margin);
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
@@ -161,9 +185,10 @@
                     overflow: hidden;
                     white-space: nowrap;
                     margin: 0;
+                    font-size: var(--heading-font-size);
 
                     @media screen and (min-width: 640px) and (max-width: 767px) {
-                        font-size: 1.5rem;
+                        --heading-font-size: 24px;
                     }
                 };
 
@@ -172,7 +197,7 @@
                     flex-shrink: 0;
 
                     @media screen and (min-width: 640px) {
-                        margin-left: 4rem;
+                        margin-left: 64px;
                         width: fit-content;
                     }
                 }
@@ -180,7 +205,7 @@
                 @media screen and (max-width: 639px) {
                     flex-direction: column;
                     align-items: start;
-                    gap: 1.5rem;
+                    gap: 24px;
 
                     h1.heading {
                         white-space: normal;
@@ -189,7 +214,7 @@
                         text-overflow: ellipsis;
                         -webkit-line-clamp: 2;
                         -webkit-box-orient: vertical;
-                        font-size: 1.5rem;
+                        --heading-font-size: 24px;
                     }
                 }
             }
@@ -199,8 +224,8 @@
             border-width: 1px;
             border-style: solid;
             border-color: var(--template-border);
-            border-radius: 1rem;
-            padding: 2rem;
+            border-radius: var(--template-border-radius);
+            padding: var(--template-padding);
             background: var(--template-background);
             overflow: hidden;
             position: relative;
@@ -214,7 +239,7 @@
             }
 
             @media screen and (max-width: 639px) {
-                padding: 1.5rem 1rem 1.5rem 1rem;
+                --template-padding: 24px 16px 24px 16px;
             }
         }
 
@@ -225,7 +250,7 @@
                 & > .header > .heading-group {
                     flex-direction: column;
                     align-items: start;
-                    gap: 1.5rem;
+                    gap: 24px;
 
                     & > .action {
                         width: 100%;
@@ -240,7 +265,7 @@
                         text-overflow: ellipsis;
                         -webkit-line-clamp: 2;
                         -webkit-box-orient: vertical;
-                        font-size: 1.5rem;
+                        --heading-font-size: 24px;
                     }
                 }
             }

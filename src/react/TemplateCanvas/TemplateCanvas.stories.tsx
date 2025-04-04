@@ -116,7 +116,7 @@ export const Iframe: Story = {
 };
 
 export const Dark: Story = {
-    name: 'Regular (Dark)',
+    name: 'Inline (Dark)',
     args: {
         theme: 'dark',
     },

@@ -8,6 +8,15 @@ a.button {
     --outline: #8286fc;
     --border: #334155;
 
+    --padding: 8px 20px;
+    --font-size: 14px;
+    --height: 38px;
+    --line-height: 22.4px;
+
+    --icon-size: 12px;
+
+    --position: 40px;
+
     text-wrap: nowrap;
     box-sizing: border-box;
     padding: 0;
@@ -31,29 +40,23 @@ a.button {
     outline-color: transparent;
     background-color: var(--background);
     color: var(--text);
+    padding: var(--padding);
+    height: var(--height);
+    font-size: var(--font-size);
+    line-height: var(--line-height);
 
-    &.md {
-        padding: 0.5rem 1.25rem;
-        height: 2.375rem;
-        font-size: 0.875rem;
-        line-height: 1.4rem;
-
-        & > .icon {
-            width: 0.75rem;
-            height: 0.75rem;
-        }
+    & > .icon {
+        width: var(--icon-size);
+        height: var(--icon-size);
     }
 
     &.lg {
-        padding: 0.75rem 1.5rem;
-        height: 3rem;
-        font-size: 1rem;
-        line-height: 1.6rem;
-
-        & > .icon {
-            width: 1rem;
-            height: 1rem;
-        }
+        --padding: 12px 24px;
+        --height: 48px;
+        --font-size: 16px;
+        --line-height: 25.6px;
+    
+        --icon-size: 16px;
     }
 
     &:hover {
@@ -93,15 +96,15 @@ a.button {
     &.bottom-right {
         top: auto;
         left: auto;
-        bottom: 2.5rem;
-        right: 2.5rem;
+        bottom: var(--position);
+        right: var(--position);
     }
 
     &.bottom-left {
         top: auto;
         right: auto;
-        bottom: 2.5rem;
-        left: 2.5rem;
+        bottom: var(--position);
+        left: var(--position);
     }
 
     &.dark {
