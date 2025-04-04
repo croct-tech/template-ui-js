@@ -10,7 +10,7 @@
     --padding: 8px 20px;
     --font-size: 14px;
     --height: 38px;
-    --line-height: 22px;
+    --line-height: 1.375rem;
     --icon-size: 12px;
 
     text-wrap: nowrap;
@@ -45,7 +45,7 @@
         --padding: 12px 24px;
         --height: 48px;
         --font-size: 16px;
-        --line-height: 25.6px;
+        --line-height: 1.6rem;
 
         --icon-size: 16px;
     }
