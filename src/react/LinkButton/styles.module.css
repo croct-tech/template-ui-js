@@ -10,7 +10,6 @@
     --padding: 8px 20px;
     --font-size: 14px;
     --height: 38px;
-    --line-height: 1.375rem;
     --icon-size: 12px;
 
     text-wrap: nowrap;
@@ -34,7 +33,7 @@
     padding: var(--padding);
     height: var(--height);
     font-size: var(--font-size);
-    line-height: var(--line-height);
+    line-height: 1.6;
 
     & > .icon {
         width: var(--icon-size);
@@ -45,7 +44,6 @@
         --padding: 12px 24px;
         --height: 48px;
         --font-size: 16px;
-        --line-height: 1.6rem;
 
         --icon-size: 16px;
     }
