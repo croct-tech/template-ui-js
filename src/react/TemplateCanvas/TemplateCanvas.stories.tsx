@@ -34,6 +34,9 @@ const meta: Meta<TemplateCanvasProps> = {
         ctaLink: {
             name: 'Call to action link',
         },
+        src: {
+            name: 'Iframe source',
+        },
         children: {
             name: 'Template',
             control: {
@@ -58,6 +61,9 @@ const meta: Meta<TemplateCanvasProps> = {
         },
         maxWidth: {
             name: 'Max width',
+        },
+        minHeight: {
+            name: 'Min height',
         },
         maxHeight: {
             name: 'Max height',
@@ -97,7 +103,15 @@ export const Inline: Story = {
 
 export const Portal: Story = {
     args: {
-        portal: true,
+        // Prevent the template from being rendered in a portal on the docs page
+        portal: new URL(window.location.href).searchParams.get('viewMode') !== 'docs',
+    },
+};
+
+export const Iframe: Story = {
+    args: {
+        src: 'iframe.html?viewMode=docs&id=templatecanvas--docs',
+        minHeight: '50vh',
     },
 };
 

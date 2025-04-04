@@ -203,6 +203,15 @@
             padding: 2rem;
             background: var(--template-background);
             overflow: hidden;
+            position: relative;
+
+            & > .iframe {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                border: none;
+            }
 
             @media screen and (max-width: 639px) {
                 padding: 1.5rem 1rem 1.5rem 1rem;
