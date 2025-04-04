@@ -75,7 +75,7 @@ export type TemplateCanvasProps = {
 };
 
 export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
-    const [embedded, setEmbedded] = useState(isEmbedded);
+    const [embedded, setEmbedded] = useState(false);
 
     // The window object is not available in SSR, so it needs to be updated
     // after the component is mounted.
@@ -104,7 +104,7 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
         src,
     } = props;
 
-    if (props.src !== undefined && (embedded || isSsr())) {
+    if (embedded) {
         return <Fragment>{children}</Fragment>;
     }
 
@@ -178,8 +178,4 @@ const Logo: FunctionComponent = () => (
 
 function isEmbedded(): boolean {
     return typeof window !== 'undefined' && new URL(window.location.href).searchParams.has('__embedded');
-}
-
-function isSsr(): boolean {
-    return typeof window === 'undefined';
 }

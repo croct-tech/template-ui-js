@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,500&display=swap');
 
-a.button {
+.button {
     --background: #0F172A;
     --text: #F1F5F9;
     --background-hover: #1e293b;
@@ -122,7 +122,7 @@ a.button {
 }
 
 @media (prefers-color-scheme: dark) {
-    a.button {
+    .button {
         --background: #fff;
         --text: #1E293B;
         --background-hover: #f8fafc;
