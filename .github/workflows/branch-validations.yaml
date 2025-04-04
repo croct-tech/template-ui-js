@@ -102,17 +102,27 @@ jobs:
       - name: Build React Storybook
         run: npm run build-storybook-react
 
+      - name: Build Next component Storybook
+        run: npm run build-storybook-next
+
       - name: Build Web component Storybook
         run: npm run build-storybook-web-component
 
-      - name: Serve Web component Storybook and run tests
-        run: |
-          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-            "npx http-server storybook-static/web-component --port 6008 --silent" \
-            "npx wait-on tcp:6008 && npm run test-storybook-web-component" 
-
-      - name: Serve Storybook and run tests
+      - name: Serve React Storybook and run tests
         run: |
           npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
             "npx http-server storybook-static/react --port 6007 --silent" \
             "npx wait-on tcp:6007 && npm run test-storybook-react"
+
+      - name: Serve Next component Storybook and run tests
+        run: |
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static/next --port 6008 --silent" \
+            "npx wait-on tcp:6008 && npm run test-storybook-next" 
+
+      - name: Serve Web component Storybook and run tests
+        run: |
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static/web-component --port 6009 --silent" \
+            "npx wait-on tcp:6008 && npm run test-storybook-web-component" 
+

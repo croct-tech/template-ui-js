@@ -1,19 +1,19 @@
-import type { StorybookConfig } from '@storybook/react-vite';
+import { StorybookConfig } from '@storybook/nextjs';
 
 const config: StorybookConfig = {
   stories: [
-    "../../src/web/**/*.stories.@(js|jsx|mjs|ts|tsx)"
+    "../../src/next/**/*.stories.@(js|jsx|mjs|ts|tsx)"
   ],
   addons: [
     "@storybook/addon-essentials",
     "@chromatic-com/storybook",
     "@storybook/experimental-addon-test"
   ],
-  framework: "@storybook/web-components-vite",
+  framework: '@storybook/nextjs',
+  staticDirs: ['../public'],
   core: {
     disableTelemetry: true
-  },
-  staticDirs: ['../public'],
+  }
 };
 
 export default config;

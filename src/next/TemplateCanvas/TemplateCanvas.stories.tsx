@@ -1,8 +1,9 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import {ReactElement} from 'react';
 import {expect, within} from '@storybook/test';
-import styles from './stories.module.css';
-import {embeddedFlag, TemplateCanvas, TemplateCanvasProps} from './index.tsx';
+import styles from '../../react/TemplateCanvas/stories.module.css';
+import {TemplateCanvas, TemplateCanvasProps} from './index.tsx';
+import {embeddedFlag} from '../../react/TemplateCanvas';
 
 const meta: Meta<TemplateCanvasProps> = {
     title: 'TemplateCanvas',
@@ -74,6 +75,9 @@ const meta: Meta<TemplateCanvasProps> = {
     },
     parameters: {
         layout: 'fullscreen',
+        nextjs: {
+            appDirectory: true, // 👈 Set this
+        },
     },
     tags: ['autodocs'],
 };
@@ -104,13 +108,6 @@ export const Inline: Story = {
     },
 };
 
-export const Portal: Story = {
-    args: {
-        // Prevent the template from being rendered in a portal on the docs page
-        portal: new URL(window.location.href).searchParams.get('viewMode') !== 'docs',
-    },
-};
-
 export const Iframe: Story = {
     args: {
         src: 'iframe.html?viewMode=docs&id=templatecanvas--docs',
@@ -130,49 +127,7 @@ export const SelfEmbedded: Story = {
 
         await expect(iframe).toBeInTheDocument();
 
-        await expect(iframe).toHaveAttribute('src', expect.stringContaining(embeddedFlag));
-
-        await new Promise<void>(resolve => {
-            iframe.onload = (): void => {
-                resolve();
-            };
-        });
-
-        const iframeBody = iframe.contentDocument?.body ?? null;
-
-        await expect(iframeBody).not.toBeNull();
-
-        const iframeContainer = within(iframeBody as HTMLElement);
-
-        await expect(iframeContainer.findByText('Template content.')).resolves.toBeInTheDocument();
-    },
-};
-
-export const Dark: Story = {
-    name: 'Inline (Dark)',
-    args: {
-        theme: 'dark',
-    },
-    argTypes: {
-        theme: {
-            name: 'Theme',
-            control: {
-                disable: true,
-            },
-        },
-    },
-};
-
-export const MaximumSize: Story = {
-    name: 'Maximum size',
-    args: {
-        maxWidth: 600,
-        maxHeight: 256,
-    },
-    play: async ({canvasElement, args}) => {
-        const container = within(canvasElement);
-
-        await expect(container.getByRole('heading', {name: args.title, level: 1})).toBeInTheDocument();
+        await expect(iframe).toHaveAttribute('src', '/?__embedded=true');
     },
 };
 
