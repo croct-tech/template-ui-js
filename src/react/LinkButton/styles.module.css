@@ -7,11 +7,10 @@ a.button {
     --icon: #E2E8F0;
     --outline: #8286fc;
     --border: #334155;
-
     --padding: 8px 20px;
     --font-size: 14px;
     --height: 38px;
-    --line-height: 22.4px;
+    --line-height: 22px;
     --icon-size: 12px;
 
     text-wrap: nowrap;
