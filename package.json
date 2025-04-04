@@ -43,7 +43,7 @@
     "build-storybook-web-component": "storybook build --config-dir .storybook/web --output-dir storybook-static/web-component",
     "build-storybook": "storybook build",
     "test-storybook-react": "test-storybook -c .storybook/react --url http://127.0.0.1:6007",
-    "test-storybook-next": "test-storybook -c .storybook/bext --url http://127.0.0.1:6008",
+    "test-storybook-next": "test-storybook -c .storybook/next --url http://127.0.0.1:6008",
     "test-storybook-web-component": "test-storybook -c .storybook/web --url http://127.0.0.1:6009"
   },
   "dependencies": {
