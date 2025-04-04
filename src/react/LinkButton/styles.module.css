@@ -15,8 +15,6 @@ a.button {
 
     --icon-size: 12px;
 
-    --position: 40px;
-
     text-wrap: nowrap;
     box-sizing: border-box;
     padding: 0;
@@ -96,15 +94,15 @@ a.button {
     &.bottom-right {
         top: auto;
         left: auto;
-        bottom: var(--position);
-        right: var(--position);
+        bottom: 40px;
+        right: 40px;
     }
 
     &.bottom-left {
         top: auto;
         right: auto;
-        bottom: var(--position);
-        left: var(--position);
+        bottom: 40px;
+        left: 40px;
     }
 
     &.dark {

@@ -4,17 +4,12 @@
 .canvas {
     --background-solid: #FFFFFF;
 
-    --background-left-glow-width: 640px;
-    --background-left-glow-height: 375px;
     --background-left-glow-from: #e0e1ff80;
     --background-left-glow-to: transparent;
 
-    --background-right-glow-width: 640px;
-    --background-right-glow-height: 375px;
     --background-right-glow-from: #a7f3d0b3;
     --background-right-glow-to: transparent;
 
-    --background-bottom-fade-height: 160px;
     --background-bottom-fade-from: #FFFFFF;
     --background-bottom-fade-to: transparent;
 
@@ -25,22 +20,6 @@
 
     --template-border: #E2E8F0;
     --template-background: #FFFFFF;
-
-    --body-padding: 48px 24px 72px 24px;
-
-    --header-margin: 40px;
-
-    --heading-group-margin: 56px;
-
-    --heading-font-size: 32px;
-
-    --subbrand-height: 20px;
-    --subbrand-margin: 8px;
-    --subbrand-line-height: 20.8px;
-    --subbrand-font-size: 16px;
-
-    --template-border-radius: 16px;
-    --template-padding: 32px;
 
     position: relative;
     background-color: var(--background-solid);
@@ -106,8 +85,8 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: var(--background-left-glow-width);
-            height: var(--background-left-glow-height);
+            width: 640px;
+            height: 375px;
             opacity: 0.8;
             background-image: radial-gradient(
                 100% 170% at 0% 100%,
@@ -120,8 +99,8 @@
             position: absolute;
             top: 0;
             right: 0;
-            width: var(--background-right-glow-width);
-            height: var(--background-right-glow-height);
+            width: 640px;
+            height: 375px;
             opacity: 0.2;
             background-image: radial-gradient(
                 100% 170.67% at 100% 100%,
@@ -135,7 +114,7 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: var(--background-bottom-fade-height);
+            height: 160px;
             background-image: linear-gradient(
                 0deg,
                 var(--background-bottom-fade-from) 0%,
@@ -146,22 +125,22 @@
 
     & > .body {
         width: 100%;
-        padding: var(--body-padding);
+        padding: 48px 24px 72px 24px;
         isolation: isolate;
 
         @media screen and (min-width: 1024px) {
-            --body-padding: 48px 64px 72px 64px;
+            padding: 48px 64px 72px 64px;
         }
 
         @media screen and (min-width: 1280px) {
-            --body-padding: 48px 120px 72px 120px;
+            padding: 48px 120px 72px 120px;
         }
 
         & > .header {
             width: 100%;
             display: flex;
             flex-direction: column;
-            margin-bottom: var(--header-margin);
+            margin-bottom: 40px;
 
             & > .logo {
                 display: flex;
@@ -169,13 +148,13 @@
                 color: var(--logo);
 
                 & > .subbrand {
-                    height: var(--subbrand-height);
+                    height: 20px;
                     text-decoration: none;
-                    margin-left: var(--subbrand-margin);
+                    margin-left: 8px;
                     font-family: 'Inter';
                     font-weight: 400;
-                    line-height: var(--subbrand-line-height);
-                    font-size: var(--subbrand-font-size);
+                    line-height: 20.8px;
+                    font-size: 16px;
                     color: var(--sub-brand);
 
                     &:hover {
@@ -185,7 +164,7 @@
             };
 
             & > .heading-group {
-                margin-top: var(--heading-group-margin);
+                margin-top: 56px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
@@ -199,10 +178,10 @@
                     overflow: hidden;
                     white-space: nowrap;
                     margin: 0;
-                    font-size: var(--heading-font-size);
+                    font-size: 32px;
 
                     @media screen and (min-width: 640px) and (max-width: 767px) {
-                        --heading-font-size: 24px;
+                        font-size: 24px;
                     }
                 };
 
@@ -228,7 +207,7 @@
                         text-overflow: ellipsis;
                         -webkit-line-clamp: 2;
                         -webkit-box-orient: vertical;
-                        --heading-font-size: 24px;
+                        font-size: 24px;
                     }
                 }
             }
@@ -238,8 +217,8 @@
             border-width: 1px;
             border-style: solid;
             border-color: var(--template-border);
-            border-radius: var(--template-border-radius);
-            padding: var(--template-padding);
+            border-radius: 16px;
+            padding: 32px;
             background: var(--template-background);
             overflow: hidden;
             position: relative;
@@ -253,7 +232,7 @@
             }
 
             @media screen and (max-width: 639px) {
-                --template-padding: 24px 16px 24px 16px;
+                padding: 24px 16px 24px 16px;
             }
         }
 
@@ -279,7 +258,7 @@
                         text-overflow: ellipsis;
                         -webkit-line-clamp: 2;
                         -webkit-box-orient: vertical;
-                        --heading-font-size: 24px;
+                        font-size: 24px;
                     }
                 }
             }
