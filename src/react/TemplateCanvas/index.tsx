@@ -157,7 +157,7 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
                                 : (
                                     <iframe
                                         title={title}
-                                        src={src === '#' ? `?${embeddedFlag}` : src}
+                                        src={src === '#' ? getIframeUrl() : src}
                                         className={styles.iframe}
                                     />
                                 )
@@ -171,6 +171,14 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
 
 function isEmbedded(): boolean {
     return typeof window !== 'undefined' && new URL(window.location.href).searchParams.has(embeddedFlag);
+}
+
+function getIframeUrl(): string {
+    const iframeUrl = new URL(window.location.href);
+
+    iframeUrl.searchParams.set(embeddedFlag, 'true');
+
+    return iframeUrl.pathname + iframeUrl.search + iframeUrl.hash;
 }
 
 const Logo: FunctionComponent = () => (

@@ -1,7 +1,7 @@
 'use client';
 
 import {FunctionComponent} from 'react';
-import {useSearchParams} from 'next/navigation';
+import {usePathname, useSearchParams} from 'next/navigation';
 import {
     embeddedFlag,
     TemplateCanvas as ReactTemplateCanvas,
@@ -11,11 +11,12 @@ import {
 export type TemplateCanvasProps = ReactTemplateCanvasProps;
 
 export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
+    const pathname = usePathname();
     const searchParams = useSearchParams();
 
     if (props.src === '#' && searchParams.has(embeddedFlag)) {
         return props.children;
     }
 
-    return (<ReactTemplateCanvas {...props} />);
+    return (<ReactTemplateCanvas {...props} src={pathname + searchParams} />);
 };

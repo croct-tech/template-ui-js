@@ -1,6 +1,7 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import {ReactElement} from 'react';
 import {expect, within} from '@storybook/test';
+import styles from './stories.module.css';
 import {TemplateCanvas, TemplateCanvasProps} from './index.tsx';
 
 const meta: Meta<TemplateCanvasProps> = {
@@ -21,7 +22,9 @@ const meta: Meta<TemplateCanvasProps> = {
         ctaLink: 'https://app.croct.com',
         subBrandLink: 'https://croct.com/templates',
         children: (
-            <div style={{width: '100%', height: 400}} />
+            <div className={styles.example} style={{width: '100%', height: 400}}>
+                Template content.
+            </div>
         ),
     },
     argTypes: {
@@ -111,6 +114,13 @@ export const Portal: Story = {
 export const Iframe: Story = {
     args: {
         src: 'iframe.html?viewMode=docs&id=templatecanvas--docs',
+        fullScreen: true,
+    },
+};
+
+export const SelfEmbedded: Story = {
+    args: {
+        src: '#',
         fullScreen: true,
     },
 };
