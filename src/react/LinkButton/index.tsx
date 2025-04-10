@@ -1,4 +1,4 @@
-import {Fragment, FunctionComponent} from 'react';
+import {Fragment, FunctionComponent, HTMLAttributeAnchorTarget} from 'react';
 import cls from 'clsx';
 import styles from './styles.module.css';
 import css from './styles.module.css?inline';
@@ -30,6 +30,10 @@ export type LinkButtonProps = {
      * The size of the button.
      */
     size?: Size,
+    /**
+     * The target of the link.
+     */
+    target?: HTMLAttributeAnchorTarget,
 };
 
 const sizeStyleMap: Record<Size, string> = {
@@ -38,13 +42,14 @@ const sizeStyleMap: Record<Size, string> = {
 };
 
 export const LinkButton: FunctionComponent<LinkButtonProps> = props => {
-    const {href, theme = '', branded = false, position = '', label, size = 'md'} = props;
+    const {href, theme = '', branded = false, position = '', label, size = 'md', target} = props;
 
     return (
         <Fragment>
             {/* eslint-disable-next-line react/no-danger -- Needed to inject raw CSS without escaping */}
             <style dangerouslySetInnerHTML={{__html: css}} />
             <a
+                target={target}
                 href={href}
                 className={
                     cls(styles.button, styles[position], styles[theme], sizeStyleMap[size], {
