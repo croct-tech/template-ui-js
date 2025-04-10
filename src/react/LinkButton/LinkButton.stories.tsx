@@ -22,11 +22,13 @@ export const Regular: Story = {
     args: {
         href: 'https://app.croct.com',
         label: 'Edit content',
+        target: '_blank',
     },
     play: async ({canvasElement}) => {
         const button = within(canvasElement).getByRole('link', {name: 'Edit content'});
 
         await expect(button).toHaveAttribute('href', 'https://app.croct.com');
+        await expect(button).toHaveAttribute('target', '_blank');
     },
 };
 
