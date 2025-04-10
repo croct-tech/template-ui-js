@@ -29,6 +29,7 @@ module.exports = {
         {
             files: ['**/*.tsx'],
             rules: {
+                'import/extensions': 'off',
                 'max-len': 'off',
             },
         },

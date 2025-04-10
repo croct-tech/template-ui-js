@@ -1,7 +1,7 @@
 'use client';
 
 import {FunctionComponent} from 'react';
-import {usePathname, useSearchParams} from 'next/navigation';
+import {usePathname, useSearchParams} from 'next/navigation.js';
 import {
     embeddedFlag,
     TemplateCanvas as ReactTemplateCanvas,
