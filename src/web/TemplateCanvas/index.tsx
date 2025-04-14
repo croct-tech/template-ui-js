@@ -20,6 +20,11 @@ export const TemplateCanvas = r2wc(
             ctaLink: 'string',
             maxWidth: 'number',
             maxHeight: 'number',
+            ctaTarget: 'string',
+            fullScreen: 'boolean',
+            minHeight: 'string',
+            portal: 'boolean',
+            src: 'string',
         },
     },
 );

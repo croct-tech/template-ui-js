@@ -57,6 +57,34 @@ const meta: Meta<TemplateCanvasProps> = {
             name: 'Call to action link',
             description: 'The URL to navigate to when the call to action is clicked.',
         },
+        ctaTarget: {
+            name: 'Call to action target',
+            description: 'The target of the call-to-action button.',
+            control: {
+                type: 'text',
+            },
+        },
+        fullScreen: {
+            name: 'Full screen',
+            description: 'Whether to render the template in full screen.',
+            control: {
+                type: 'boolean',
+            },
+        },
+        portal: {
+            name: 'Portal',
+            description: 'Whether to render the template in a portal.',
+            control: {
+                type: 'boolean',
+            },
+        },
+        src: {
+            name: 'Source',
+            description: 'Render the template in an iframe.',
+            control: {
+                type: 'text',
+            },
+        },
         theme: {
             name: 'Theme',
             description: 'The theme of the template.',
@@ -79,6 +107,13 @@ const meta: Meta<TemplateCanvasProps> = {
         maxHeight: {
             name: 'Max height',
             description: 'The template max height.',
+            control: {
+                type: 'number',
+            },
+        },
+        minHeight: {
+            name: 'Min height',
+            description: 'The template min height.',
             control: {
                 type: 'number',
             },

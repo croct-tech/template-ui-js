@@ -38,6 +38,9 @@ const meta: Meta<TemplateCanvasProps> = {
         ctaLink: {
             name: 'Call to action link',
         },
+        ctaTarget: {
+            name: 'Call to action target',
+        },
         src: {
             name: 'Iframe source',
         },
@@ -65,12 +68,27 @@ const meta: Meta<TemplateCanvasProps> = {
         },
         maxWidth: {
             name: 'Max width',
+            control: {
+                type: 'text',
+            },
         },
         minHeight: {
             name: 'Min height',
+            control: {
+                type: 'text',
+            },
         },
         maxHeight: {
             name: 'Max height',
+            control: {
+                type: 'text',
+            },
+        },
+        fullScreen: {
+            name: 'Full screen',
+        },
+        portal: {
+            name: 'Portal',
         },
     },
     parameters: {
