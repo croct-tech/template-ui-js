@@ -1,6 +1,6 @@
 'use client';
 
-import {FunctionComponent, ReactNode} from 'react';
+import {FunctionComponent, HTMLAttributeAnchorTarget, ReactNode} from 'react';
 import cls from 'clsx';
 import styles from './styles.module.css';
 import css from './styles.module.css?inline';
@@ -32,6 +32,11 @@ export type TemplateCanvasProps = {
      * The URL of the call-to-action button.
      */
     ctaLink: string,
+
+    /**
+     * The target of the call-to-action button.
+     */
+    ctaTarget?: HTMLAttributeAnchorTarget,
 
     /**
      * The theme of the template.
@@ -102,6 +107,7 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
         maxHeight,
         fullScreen = false,
         src,
+        ctaTarget,
     } = props;
 
     return (
@@ -140,6 +146,7 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
                                     theme={theme}
                                     href={ctaLink}
                                     label={ctaLabel}
+                                    target={ctaTarget}
                                 />
                             </div>
                         </div>

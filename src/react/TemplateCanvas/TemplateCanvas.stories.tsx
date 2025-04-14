@@ -20,6 +20,7 @@ const meta: Meta<TemplateCanvasProps> = {
         subBrandLabel: 'templates',
         ctaLabel: 'Edit content',
         ctaLink: 'https://app.croct.com',
+        ctaTarget: '_blank',
         subBrandLink: 'https://croct.com/templates',
         children: (
             <div className={styles.example} style={{width: '100%', height: 400}}>
@@ -64,12 +65,33 @@ const meta: Meta<TemplateCanvasProps> = {
         },
         maxWidth: {
             name: 'Max width',
+            control: {
+                type: 'text',
+            },
         },
         minHeight: {
             name: 'Min height',
+            control: {
+                type: 'text',
+            },
         },
         maxHeight: {
             name: 'Max height',
+            control: {
+                type: 'text',
+            },
+        },
+        ctaTarget: {
+            name: 'Call to action target',
+            control: {
+                type: 'text',
+            },
+        },
+        fullScreen: {
+            name: 'Full screen',
+        },
+        portal: {
+            name: 'Portal',
         },
     },
     parameters: {
@@ -101,6 +123,8 @@ export const Inline: Story = {
         await expect(cta).toBeInTheDocument();
 
         await expect(cta).toHaveAttribute('href', args.ctaLink);
+
+        await expect(cta).toHaveAttribute('target', args.ctaTarget);
     },
 };
 
