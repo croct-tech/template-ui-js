@@ -116,7 +116,7 @@ export const Iframe: Story = {
     play: async ({canvasElement, args}) => {
         const container = within(canvasElement);
 
-        const iframe = container.getByTitle(args.title) as HTMLIFrameElement;
+        const iframe = await container.findByTitle(args.title) as HTMLIFrameElement;
 
         await expect(iframe).toBeInTheDocument();
 
@@ -148,9 +148,9 @@ export const IframePortal: Story = {
         ),
     },
     play: async ({canvasElement, args}) => {
-        const container = within(canvasElement);
+        const container = within(canvasElement.parentNode as HTMLElement);
 
-        const iframe = container.getByTitle(args.title) as HTMLIFrameElement;
+        const iframe = await container.findByTitle(args.title) as HTMLIFrameElement;
 
         await expect(iframe).toBeInTheDocument();
 
