@@ -106,6 +106,41 @@ export const Iframe: Story = {
     args: {
         frame: true,
         fullScreen: true,
+        portal: false,
+        children: (
+            <div className={styles.example} style={{position: 'absolute', inset: 0, width: '100%', height: '100%'}}>
+                Template content.
+            </div>
+        ),
+    },
+    play: async ({canvasElement, args}) => {
+        const container = within(canvasElement);
+
+        const iframe = container.getByTitle(args.title) as HTMLIFrameElement;
+
+        await expect(iframe).toBeInTheDocument();
+
+        await new Promise<void>(resolve => {
+            iframe.onload = (): void => {
+                resolve();
+            };
+        });
+
+        const iframeBody = iframe.contentDocument?.body ?? null;
+
+        await expect(iframeBody).not.toBeNull();
+
+        const iframeContainer = within(iframeBody as HTMLElement);
+
+        await expect(iframeContainer.findByText('Template content.')).resolves.toBeInTheDocument();
+    },
+};
+
+export const IframePortal: Story = {
+    args: {
+        frame: true,
+        fullScreen: true,
+        portal: true,
         children: (
             <div className={styles.example} style={{position: 'absolute', inset: 0, width: '100%', height: '100%'}}>
                 Template content.

@@ -86,9 +86,7 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
     if (props.portal === true) {
         return (
             <FullScreenPortal>
-                <TemplateCanvas {...props} portal={false}>
-                    {props.children}
-                </TemplateCanvas>
+                <TemplateCanvas {...props} portal={false} />
             </FullScreenPortal>
         );
     }
@@ -161,7 +159,8 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
                             frame
                                 ? (
                                     <Frame className={styles.iframe} title={title}>
-                                        <FramedContent>{children}</FramedContent>
+                                        <FrameStyles />
+                                        {children}
                                     </Frame>
                                 )
                                 : children
@@ -196,7 +195,7 @@ function getDefaultExport<T>(object: T|{default: T}): T {
     return object;
 }
 
-function FramedContent({children}: PropsWithChildren): ReactNode {
+function FrameStyles(): ReactNode {
     const {document: doc} = useFrame();
 
     useLayoutEffect(
@@ -212,7 +211,7 @@ function FramedContent({children}: PropsWithChildren): ReactNode {
         [doc],
     );
 
-    return children;
+    return null;
 }
 
 const Logo: FunctionComponent = () => (
