@@ -1,6 +1,14 @@
 'use client';
 
-import {FunctionComponent, HTMLAttributeAnchorTarget, ReactNode, useEffect, useLayoutEffect} from 'react';
+import {
+    FunctionComponent,
+    HTMLAttributeAnchorTarget,
+    IframeHTMLAttributes,
+    ReactNode,
+    useEffect,
+    useLayoutEffect,
+    useState,
+} from 'react';
 import cls from 'clsx';
 import FrameModule, {useFrame} from 'react-frame-component';
 import styles from './styles.module.css';
@@ -158,10 +166,9 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
                         {
                             frame
                                 ? (
-                                    <Frame className={styles.iframe} title={title}>
-                                        <FrameStyles />
+                                    <IframePreview className={styles.iframe} title={title}>
                                         {children}
-                                    </Frame>
+                                    </IframePreview>
                                 )
                                 : children
                         }
@@ -196,6 +203,28 @@ function getDefaultExport<T>(object: T|{default: T}): T {
 }
 
 const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+
+function IframePreview({children, ...props}: IframeHTMLAttributes<HTMLIFrameElement>): ReactNode {
+    const [mounted, setMounted] = useState(false);
+
+    useIsomorphicLayoutEffect(
+        () => {
+            setMounted(true);
+        },
+        [],
+    );
+
+    if (!mounted) {
+        return null;
+    }
+
+    return (
+        <Frame {...props}>
+            <FrameStyles />
+            {children}
+        </Frame>
+    );
+}
 
 function FrameStyles(): ReactNode {
     const {document: doc} = useFrame();
