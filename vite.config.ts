@@ -15,7 +15,6 @@ export default defineConfig({
         lib: {
             entry: [
                 'src/react/index.ts',
-                'src/next/index.ts',
                 'src/web/index.ts',
                 'src/web/registry.ts',
             ],
