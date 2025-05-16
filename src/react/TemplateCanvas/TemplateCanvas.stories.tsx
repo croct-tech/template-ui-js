@@ -2,7 +2,7 @@ import type {Meta, StoryObj} from '@storybook/react';
 import {ReactElement} from 'react';
 import {expect, within} from '@storybook/test';
 import styles from './stories.module.css';
-import {embeddedFlag, TemplateCanvas, TemplateCanvasProps} from './index.tsx';
+import {TemplateCanvas, TemplateCanvasProps} from './index.tsx';
 
 const meta: Meta<TemplateCanvasProps> = {
     title: 'TemplateCanvas',
@@ -38,8 +38,8 @@ const meta: Meta<TemplateCanvasProps> = {
         ctaLink: {
             name: 'Call to action link',
         },
-        src: {
-            name: 'Iframe source',
+        isolated: {
+            name: 'Isolated',
         },
         children: {
             name: 'Template',
@@ -102,6 +102,74 @@ const meta: Meta<TemplateCanvasProps> = {
 
 type Story = StoryObj<typeof TemplateCanvas>;
 
+export const Iframe: Story = {
+    args: {
+        isolated: true,
+        fullScreen: true,
+        portal: false,
+        children: (
+            <div className={styles.example} style={{position: 'absolute', inset: 0, width: '100%', height: '100%'}}>
+                Template content.
+            </div>
+        ),
+    },
+    play: async ({canvasElement, args}) => {
+        const container = within(canvasElement);
+
+        const iframe = await container.findByTitle(args.title) as HTMLIFrameElement;
+
+        await expect(iframe).toBeInTheDocument();
+
+        await new Promise<void>(resolve => {
+            iframe.onload = (): void => {
+                resolve();
+            };
+        });
+
+        const iframeBody = iframe.contentDocument?.body ?? null;
+
+        await expect(iframeBody).not.toBeNull();
+
+        const iframeContainer = within(iframeBody as HTMLElement);
+
+        await expect(iframeContainer.findByText('Template content.')).resolves.toBeInTheDocument();
+    },
+};
+
+export const IframePortal: Story = {
+    args: {
+        isolated: true,
+        fullScreen: true,
+        portal: true,
+        children: (
+            <div className={styles.example} style={{position: 'absolute', inset: 0, width: '100%', height: '100%'}}>
+                Template content.
+            </div>
+        ),
+    },
+    play: async ({canvasElement, args}) => {
+        const container = within(canvasElement.parentNode as HTMLElement);
+
+        const iframe = await container.findByTitle(args.title) as HTMLIFrameElement;
+
+        await expect(iframe).toBeInTheDocument();
+
+        await new Promise<void>(resolve => {
+            iframe.onload = (): void => {
+                resolve();
+            };
+        });
+
+        const iframeBody = iframe.contentDocument?.body ?? null;
+
+        await expect(iframeBody).not.toBeNull();
+
+        const iframeContainer = within(iframeBody as HTMLElement);
+
+        await expect(iframeContainer.findByText('Template content.')).resolves.toBeInTheDocument();
+    },
+};
+
 export const Inline: Story = {
     argTypes: {
         theme: {
@@ -132,52 +200,6 @@ export const Portal: Story = {
     args: {
         // Prevent the template from being rendered in a portal on the docs page
         portal: new URL(window.location.href).searchParams.get('viewMode') !== 'docs',
-    },
-};
-
-export const Iframe: Story = {
-    args: {
-        src: 'iframe.html?viewMode=docs&id=templatecanvas--docs',
-        fullScreen: true,
-    },
-    play: async ({canvasElement, args}) => {
-        const container = within(canvasElement);
-
-        const iframe = container.getByTitle(args.title) as HTMLIFrameElement;
-
-        await expect(iframe).toBeInTheDocument();
-
-        await expect(iframe).toHaveAttribute('src', args.src);
-    },
-};
-
-export const SelfEmbedded: Story = {
-    args: {
-        src: '#',
-        fullScreen: true,
-    },
-    play: async ({canvasElement, args}) => {
-        const container = within(canvasElement);
-
-        const iframe = container.getByTitle(args.title) as HTMLIFrameElement;
-
-        await expect(iframe).toBeInTheDocument();
-
-        await expect(iframe).toHaveAttribute('src', expect.stringContaining(embeddedFlag));
-
-        await new Promise<void>(resolve => {
-            iframe.onload = (): void => {
-                resolve();
-            };
-        });
-
-        const iframeBody = iframe.contentDocument?.body ?? null;
-
-        await expect(iframeBody).not.toBeNull();
-
-        const iframeContainer = within(iframeBody as HTMLElement);
-
-        await expect(iframeContainer.findByText('Template content.')).resolves.toBeInTheDocument();
     },
 };
 

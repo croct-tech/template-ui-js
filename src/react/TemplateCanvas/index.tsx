@@ -1,11 +1,22 @@
 'use client';
 
-import {FunctionComponent, HTMLAttributeAnchorTarget, ReactNode} from 'react';
+import {
+    FunctionComponent,
+    HTMLAttributeAnchorTarget,
+    IframeHTMLAttributes,
+    ReactNode,
+    useEffect,
+    useLayoutEffect,
+    useState,
+} from 'react';
 import cls from 'clsx';
+import FrameModule, {useFrame} from 'react-frame-component';
 import styles from './styles.module.css';
 import css from './styles.module.css?inline';
 import {LinkButton} from '../LinkButton';
 import {FullScreenPortal} from '../FullScreenPortal';
+
+const Frame = getDefaultExport(FrameModule);
 
 export type TemplateCanvasProps = {
     /**
@@ -46,7 +57,7 @@ export type TemplateCanvasProps = {
     /**
      * Render the template in an iframe.
      */
-    src?: string,
+    isolated?: boolean,
 
     /**
      * The template component to be shown.
@@ -79,13 +90,7 @@ export type TemplateCanvasProps = {
     fullScreen?: boolean,
 };
 
-export const embeddedFlag = '__embedded';
-
 export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
-    if (isEmbedded()) {
-        return props.children;
-    }
-
     if (props.portal === true) {
         return (
             <FullScreenPortal>
@@ -106,7 +111,7 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
         minHeight,
         maxHeight,
         fullScreen = false,
-        src,
+        isolated = false,
         ctaTarget,
     } = props;
 
@@ -159,15 +164,13 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
                         }}
                     >
                         {
-                            src === undefined
-                                ? children
-                                : (
-                                    <iframe
-                                        title={title}
-                                        src={src === '#' ? getEmbeddedUrl() : src}
-                                        className={styles.iframe}
-                                    />
+                            isolated
+                                ? (
+                                    <IframePreview className={styles.iframe} title={title}>
+                                        {children}
+                                    </IframePreview>
                                 )
+                                : children
                         }
                     </div>
                 </div>
@@ -176,16 +179,70 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
     );
 };
 
-function isEmbedded(): boolean {
-    return typeof window !== 'undefined' && new URL(window.location.href).searchParams.has(embeddedFlag);
+/**
+ * Fixes the import of a module that is wrapped with `__toESM`.
+ *
+ * Esbuild wraps `require` calls with `__toESM`.
+ * Since this library uses `type: "module"`, `__toESM` assigns the required module to the `default` property.
+ *
+ * References:
+ * - https://github.com/egoist/tsup/issues/658
+ * - https://github.com/evanw/esbuild/issues/2023
+ *
+ * However, some libraries already apply this default export transformation themselves,
+ * resulting in a double `default` export that breaks the code.
+ *
+ * This function is a workaround to normalize the import and prevent that issue.
+ */
+function getDefaultExport<T>(object: T|{default: T}): T {
+    if (object !== null && typeof object === 'object' && 'default' in object) {
+        return object.default;
+    }
+
+    return object;
 }
 
-function getEmbeddedUrl(): string {
-    const iframeUrl = new URL(window.location.href);
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
-    iframeUrl.searchParams.set(embeddedFlag, 'true');
+function IframePreview({children, ...props}: IframeHTMLAttributes<HTMLIFrameElement>): ReactNode {
+    const [mounted, setMounted] = useState(false);
 
-    return iframeUrl.pathname + iframeUrl.search + iframeUrl.hash;
+    useIsomorphicLayoutEffect(
+        () => {
+            setMounted(true);
+        },
+        [],
+    );
+
+    if (!mounted) {
+        return null;
+    }
+
+    return (
+        <Frame {...props}>
+            <FrameStyles />
+            {children}
+        </Frame>
+    );
+}
+
+function FrameStyles(): ReactNode {
+    const {document: doc} = useFrame();
+
+    useIsomorphicLayoutEffect(
+        () => {
+            document.head
+                .querySelectorAll('style, [as="style"], link[rel="stylesheet"]')
+                .forEach(style => {
+                    const frameStyles = style.cloneNode(true);
+
+                    doc?.head.append(frameStyles);
+                });
+        },
+        [doc],
+    );
+
+    return null;
 }
 
 const Logo: FunctionComponent = () => (

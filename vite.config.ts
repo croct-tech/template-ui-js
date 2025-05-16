@@ -5,7 +5,6 @@ import dts from 'vite-plugin-dts'
 import {fixImportsPlugin} from "esbuild-fix-imports-plugin";
 import preserveDirectives from "rollup-plugin-preserve-directives";
 
-
 export default defineConfig({
     plugins: [react(), externalizeDeps(), fixImportsPlugin(), dts({
         exclude: ['**/*.stories.{ts,tsx}'],
@@ -15,7 +14,6 @@ export default defineConfig({
         lib: {
             entry: [
                 'src/react/index.ts',
-                'src/next/index.ts',
                 'src/web/index.ts',
                 'src/web/registry.ts',
             ],

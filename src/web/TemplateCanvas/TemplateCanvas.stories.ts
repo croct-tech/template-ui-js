@@ -1,5 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/web-components';
 import {TemplateCanvas, TemplateCanvasProps} from './index';
+import styles from './stories.module.css';
 
 customElements.define('template-canvas', TemplateCanvas);
 
@@ -25,7 +26,9 @@ const meta: Meta<TemplateCanvasProps> = {
                 sub-brand-label="${args.subBrandLabel}"
                 sub-brand-link="${args.subBrandLink}"
             >
-                <div style="width: 100%; height: 400px"></div>
+                <div class="${styles.example}" style="width: 100%; height: 400px">
+                    Template content.
+                </div>
             </template-canvas>
         `;
     },
@@ -78,9 +81,9 @@ const meta: Meta<TemplateCanvasProps> = {
                 type: 'boolean',
             },
         },
-        src: {
-            name: 'Source',
-            description: 'Render the template in an iframe.',
+        isolated: {
+            name: 'Isolated',
+            description: '',
             control: {
                 type: 'text',
             },
@@ -131,6 +134,13 @@ export const Regular: Story = {
                 disable: true,
             },
         },
+    },
+};
+
+export const Iframe: Story = {
+    args: {
+        isolated: true,
+        fullScreen: true,
     },
 };
 
