@@ -1,13 +1,6 @@
 'use client';
 
-import {
-    FunctionComponent,
-    HTMLAttributeAnchorTarget,
-    PropsWithChildren,
-    ReactNode,
-    useEffect,
-    useLayoutEffect,
-} from 'react';
+import {FunctionComponent, HTMLAttributeAnchorTarget, ReactNode, useEffect, useLayoutEffect} from 'react';
 import cls from 'clsx';
 import FrameModule, {useFrame} from 'react-frame-component';
 import styles from './styles.module.css';
