@@ -86,7 +86,9 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
     if (props.portal === true) {
         return (
             <FullScreenPortal>
-                <TemplateCanvas {...props} portal={false} />
+                <TemplateCanvas {...props} portal={false}>
+                    {props.children}
+                </TemplateCanvas>
             </FullScreenPortal>
         );
     }
