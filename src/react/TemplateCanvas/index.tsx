@@ -2,7 +2,8 @@
 
 import {FunctionComponent, HTMLAttributeAnchorTarget, PropsWithChildren, ReactNode, useLayoutEffect} from 'react';
 import cls from 'clsx';
-import Frame, {useFrame} from 'react-frame-component';
+// eslint-disable-next-line import/no-named-default -- Needed to import default export
+import {default as Frame, useFrame} from 'react-frame-component';
 import styles from './styles.module.css';
 import css from './styles.module.css?inline';
 import {LinkButton} from '../LinkButton';
