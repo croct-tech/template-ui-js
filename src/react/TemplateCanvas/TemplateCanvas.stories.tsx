@@ -39,7 +39,7 @@ const meta: Meta<TemplateCanvasProps> = {
             name: 'Call to action link',
         },
         isolated: {
-            name: 'Render in frame',
+            name: 'Isolated',
         },
         children: {
             name: 'Template',

@@ -82,7 +82,7 @@ const meta: Meta<TemplateCanvasProps> = {
             },
         },
         isolated: {
-            name: 'Iframe',
+            name: 'Isolated',
             description: '',
             control: {
                 type: 'text',
