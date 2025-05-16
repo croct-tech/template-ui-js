@@ -46,10 +46,8 @@ jobs:
 
       - name: Build & Publish
         run: |
-          sed -i -e "s~http://localhost:6008~https://template-ui.croct.dev/_next~" .storybook/react/main.ts
           sed -i -e "s~http://localhost:6009~https://template-ui.croct.dev/_web~" .storybook/react/main.ts
           npm run build-storybook -- --quiet --config-dir .storybook/react --output-dir storybook-static
-          npm run build-storybook -- --quiet --config-dir .storybook/next --output-dir storybook-static/_next
           npm run build-storybook -- --quiet --config-dir .storybook/web --output-dir storybook-static/_web
 
           docker buildx build ./storybook-static \

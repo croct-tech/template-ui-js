@@ -1,7 +1,8 @@
 'use client';
 
-import {FunctionComponent, HTMLAttributeAnchorTarget, ReactNode} from 'react';
+import {FunctionComponent, HTMLAttributeAnchorTarget, PropsWithChildren, ReactNode, useLayoutEffect} from 'react';
 import cls from 'clsx';
+import Frame, {useFrame} from 'react-frame-component';
 import styles from './styles.module.css';
 import css from './styles.module.css?inline';
 import {LinkButton} from '../LinkButton';
@@ -46,7 +47,7 @@ export type TemplateCanvasProps = {
     /**
      * Render the template in an iframe.
      */
-    src?: string,
+    frame?: boolean,
 
     /**
      * The template component to be shown.
@@ -79,13 +80,7 @@ export type TemplateCanvasProps = {
     fullScreen?: boolean,
 };
 
-export const embeddedFlag = '__embedded';
-
 export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
-    if (isEmbedded()) {
-        return props.children;
-    }
-
     if (props.portal === true) {
         return (
             <FullScreenPortal>
@@ -106,7 +101,7 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
         minHeight,
         maxHeight,
         fullScreen = false,
-        src,
+        frame = false,
         ctaTarget,
     } = props;
 
@@ -159,15 +154,13 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
                         }}
                     >
                         {
-                            src === undefined
-                                ? children
-                                : (
-                                    <iframe
-                                        title={title}
-                                        src={src === '#' ? getEmbeddedUrl() : src}
-                                        className={styles.iframe}
-                                    />
+                            frame
+                                ? (
+                                    <Frame className={styles.iframe} title={title}>
+                                        <FramedContent>{children}</FramedContent>
+                                    </Frame>
                                 )
+                                : children
                         }
                     </div>
                 </div>
@@ -176,16 +169,23 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
     );
 };
 
-function isEmbedded(): boolean {
-    return typeof window !== 'undefined' && new URL(window.location.href).searchParams.has(embeddedFlag);
-}
+function FramedContent({children}: PropsWithChildren): ReactNode {
+    const {document: doc} = useFrame();
 
-function getEmbeddedUrl(): string {
-    const iframeUrl = new URL(window.location.href);
+    useLayoutEffect(
+        () => {
+            document.head
+                .querySelectorAll('style, [as="style"], link[rel="stylesheet"]')
+                .forEach(style => {
+                    const frameStyles = style.cloneNode(true);
 
-    iframeUrl.searchParams.set(embeddedFlag, 'true');
+                    doc?.head.append(frameStyles);
+                });
+        },
+        [doc],
+    );
 
-    return iframeUrl.pathname + iframeUrl.search + iframeUrl.hash;
+    return children;
 }
 
 const Logo: FunctionComponent = () => (
