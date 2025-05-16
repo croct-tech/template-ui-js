@@ -1,6 +1,13 @@
 'use client';
 
-import {FunctionComponent, HTMLAttributeAnchorTarget, PropsWithChildren, ReactNode, useLayoutEffect} from 'react';
+import {
+    FunctionComponent,
+    HTMLAttributeAnchorTarget,
+    PropsWithChildren,
+    ReactNode,
+    useEffect,
+    useLayoutEffect,
+} from 'react';
 import cls from 'clsx';
 import FrameModule, {useFrame} from 'react-frame-component';
 import styles from './styles.module.css';
@@ -195,10 +202,12 @@ function getDefaultExport<T>(object: T|{default: T}): T {
     return object;
 }
 
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+
 function FrameStyles(): ReactNode {
     const {document: doc} = useFrame();
 
-    useLayoutEffect(
+    useIsomorphicLayoutEffect(
         () => {
             document.head
                 .querySelectorAll('style, [as="style"], link[rel="stylesheet"]')
