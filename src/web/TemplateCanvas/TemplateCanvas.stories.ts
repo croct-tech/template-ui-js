@@ -81,7 +81,7 @@ const meta: Meta<TemplateCanvasProps> = {
                 type: 'boolean',
             },
         },
-        frame: {
+        isolated: {
             name: 'Iframe',
             description: '',
             control: {
@@ -139,7 +139,7 @@ export const Regular: Story = {
 
 export const Iframe: Story = {
     args: {
-        frame: true,
+        isolated: true,
         fullScreen: true,
     },
 };

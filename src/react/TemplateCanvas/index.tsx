@@ -57,7 +57,7 @@ export type TemplateCanvasProps = {
     /**
      * Render the template in an iframe.
      */
-    frame?: boolean,
+    isolated?: boolean,
 
     /**
      * The template component to be shown.
@@ -111,7 +111,7 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
         minHeight,
         maxHeight,
         fullScreen = false,
-        frame = false,
+        isolated = false,
         ctaTarget,
     } = props;
 
@@ -164,7 +164,7 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
                         }}
                     >
                         {
-                            frame
+                            isolated
                                 ? (
                                     <IframePreview className={styles.iframe} title={title}>
                                         {children}

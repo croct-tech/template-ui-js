@@ -38,7 +38,7 @@ const meta: Meta<TemplateCanvasProps> = {
         ctaLink: {
             name: 'Call to action link',
         },
-        frame: {
+        isolated: {
             name: 'Render in frame',
         },
         children: {
@@ -104,7 +104,7 @@ type Story = StoryObj<typeof TemplateCanvas>;
 
 export const Iframe: Story = {
     args: {
-        frame: true,
+        isolated: true,
         fullScreen: true,
         portal: false,
         children: (
@@ -138,7 +138,7 @@ export const Iframe: Story = {
 
 export const IframePortal: Story = {
     args: {
-        frame: true,
+        isolated: true,
         fullScreen: true,
         portal: true,
         children: (

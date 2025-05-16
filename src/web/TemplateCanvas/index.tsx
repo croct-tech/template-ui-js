@@ -24,7 +24,7 @@ export const TemplateCanvas = r2wc(
             fullScreen: 'boolean',
             minHeight: 'string',
             portal: 'boolean',
-            frame: 'boolean',
+            isolated: 'boolean',
         },
     },
 );
