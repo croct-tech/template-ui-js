@@ -2,12 +2,13 @@
 
 import {FunctionComponent, HTMLAttributeAnchorTarget, PropsWithChildren, ReactNode, useLayoutEffect} from 'react';
 import cls from 'clsx';
-// eslint-disable-next-line import/no-named-default -- Needed to import default export
-import {default as Frame, useFrame} from 'react-frame-component';
+import FrameModule, {useFrame} from 'react-frame-component';
 import styles from './styles.module.css';
 import css from './styles.module.css?inline';
 import {LinkButton} from '../LinkButton';
 import {FullScreenPortal} from '../FullScreenPortal';
+
+const Frame = getDefaultExport(FrameModule);
 
 export type TemplateCanvasProps = {
     /**
@@ -169,6 +170,29 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
         </div>
     );
 };
+
+/**
+ * Fixes the import of a module that is wrapped with `__toESM`.
+ *
+ * Esbuild wraps `require` calls with `__toESM`.
+ * Since this library uses `type: "module"`, `__toESM` assigns the required module to the `default` property.
+ *
+ * References:
+ * - https://github.com/egoist/tsup/issues/658
+ * - https://github.com/evanw/esbuild/issues/2023
+ *
+ * However, some libraries already apply this default export transformation themselves,
+ * resulting in a double `default` export that breaks the code.
+ *
+ * This function is a workaround to normalize the import and prevent that issue.
+ */
+function getDefaultExport<T>(object: T|{default: T}): T {
+    if (object !== null && typeof object === 'object' && 'default' in object) {
+        return object.default;
+    }
+
+    return object;
+}
 
 function FramedContent({children}: PropsWithChildren): ReactNode {
     const {document: doc} = useFrame();
