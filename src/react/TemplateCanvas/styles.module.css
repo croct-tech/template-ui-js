@@ -259,6 +259,14 @@
     width: 100%;
     height: 100%;
     border: none;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+    visibility: visible;
+}
+
+.iframeLoading {
+    opacity: 0.5;
+    visibility: hidden;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -1,6 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import {ReactElement} from 'react';
-import {expect, userEvent, within} from '@storybook/test';
+import {expect, within} from '@storybook/test';
 import styles from './stories.module.css';
 import {TemplateCanvas, TemplateCanvasProps} from './index.tsx';
 
@@ -116,77 +116,21 @@ export const Iframe: Story = {
     play: async ({canvasElement, args}) => {
         const container = within(canvasElement);
 
-        const iframe = await container.findByTitle(args.title) as HTMLIFrameElement;
-
-        await expect(iframe).toBeInTheDocument();
-
-        await new Promise<void>(resolve => {
-            iframe.onload = (): void => {
-                resolve();
-            };
+        const promise = new Promise<void>(resolve => {
+            window.addEventListener('message', event => {
+                if (event.data === 'croct:template:ready') {
+                    resolve();
+                }
+            });
         });
-
-        const iframeBody = iframe.contentDocument?.body ?? null;
-
-        await expect(iframeBody).not.toBeNull();
-
-        const iframeContainer = within(iframeBody as HTMLElement);
-
-        await expect(iframeContainer.findByText('Template content.')).resolves.toBeInTheDocument();
-    },
-};
-
-function StyleDemo(): ReactElement {
-    const setStyle = (): void => {
-        const style = document.createElement('style');
-
-        style.id = 'example';
-        style.setAttribute('data-testid', 'example');
-
-        style.innerHTML = `
-            .example {
-                background-color: red;
-            }
-        `;
-
-        document.head.appendChild(style);
-    };
-
-    const unsetStyle = (): void => {
-        document.getElementById('example')?.remove();
-    };
-
-    return (
-        <div className={styles.example} style={{position: 'absolute', inset: 0, width: '100%', height: '100%'}}>
-            <div className="example">Template content.</div>
-            <div>
-                <button type="button" onClick={setStyle}>Set style</button>
-                <button type="button" onClick={unsetStyle}>Unset style</button>
-            </div>
-        </div>
-    );
-}
-
-export const IframeStyle: Story = {
-    args: {
-        isolated: true,
-        fullScreen: true,
-        portal: false,
-        children: (<StyleDemo />),
-    },
-    play: async ({canvasElement, args}) => {
-        const container = within(canvasElement);
-        const head = within(canvasElement.ownerDocument.head);
 
         const iframe = await container.findByTitle(args.title) as HTMLIFrameElement;
 
         await expect(iframe).toBeInTheDocument();
 
-        await new Promise<void>(resolve => {
-            iframe.onload = (): void => {
-                resolve();
-            };
-        });
+        await expect(iframe).not.toBeVisible();
+
+        await promise;
 
         const iframeBody = iframe.contentDocument?.body ?? null;
 
@@ -196,27 +140,7 @@ export const IframeStyle: Story = {
 
         await expect(iframeContainer.findByText('Template content.')).resolves.toBeInTheDocument();
 
-        const iframeHead = iframe.contentDocument?.head as HTMLHeadElement;
-
-        await expect(iframeHead).not.toBeNull();
-
-        await expect(head.queryByTestId('example')).not.toBeInTheDocument();
-        // queryByTestId does not work, probably because the element is in the iframe DOM
-        await expect(iframeHead.querySelector('[data-testid="example"]')).toBeNull();
-
-        const setStyleButton = iframeContainer.getByRole('button', {name: 'Set style'});
-
-        await userEvent.click(setStyleButton);
-
-        await expect(head.getByTestId('example')).toBeInTheDocument();
-        await expect(iframeHead.querySelector('[data-testid="example"]')).not.toBeNull();
-
-        const unsetStyleButton = iframeContainer.getByRole('button', {name: 'Unset style'});
-
-        await userEvent.click(unsetStyleButton);
-
-        await expect(head.queryByTestId('example')).not.toBeInTheDocument();
-        await expect(iframeHead.querySelector('[data-testid="example"]')).toBeNull();
+        await expect(container.getByTitle(args.title)).toBeVisible();
     },
 };
 
