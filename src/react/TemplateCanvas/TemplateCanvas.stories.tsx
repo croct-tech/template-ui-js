@@ -116,15 +116,21 @@ export const Iframe: Story = {
     play: async ({canvasElement, args}) => {
         const container = within(canvasElement);
 
+        const promise = new Promise<void>(resolve => {
+            window.addEventListener('message', event => {
+                if (event.data === 'croct:template:ready') {
+                    resolve();
+                }
+            });
+        });
+
         const iframe = await container.findByTitle(args.title) as HTMLIFrameElement;
 
         await expect(iframe).toBeInTheDocument();
 
-        await new Promise<void>(resolve => {
-            iframe.onload = (): void => {
-                resolve();
-            };
-        });
+        await expect(iframe).not.toBeVisible();
+
+        await promise;
 
         const iframeBody = iframe.contentDocument?.body ?? null;
 
@@ -133,6 +139,8 @@ export const Iframe: Story = {
         const iframeContainer = within(iframeBody as HTMLElement);
 
         await expect(iframeContainer.findByText('Template content.')).resolves.toBeInTheDocument();
+
+        await expect(container.getByTitle(args.title)).toBeVisible();
     },
 };
 
