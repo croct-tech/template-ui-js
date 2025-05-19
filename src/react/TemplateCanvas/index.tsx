@@ -95,11 +95,17 @@ export const TemplateCanvas: FunctionComponent<TemplateCanvasProps> = props => {
                 window.top?.postMessage('croct:template:ready', '*');
             }
 
-            window.addEventListener('message', event => {
+            const handleMessage = (event: MessageEvent): void => {
                 if (event.data === 'croct:template:ready') {
                     setLoading(false);
                 }
-            });
+            };
+
+            window.addEventListener('message', handleMessage);
+
+            return () => {
+                window.removeEventListener('message', handleMessage);
+            };
         },
         [],
     );
