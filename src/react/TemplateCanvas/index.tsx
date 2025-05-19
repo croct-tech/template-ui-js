@@ -231,13 +231,68 @@ function FrameStyles(): ReactNode {
 
     useIsomorphicLayoutEffect(
         () => {
-            document.head
-                .querySelectorAll('style, [as="style"], link[rel="stylesheet"]')
-                .forEach(style => {
-                    const frameStyles = style.cloneNode(true);
+            const selector = 'style, [as="style"], [rel="stylesheet"]';
+            const cloneMap = new WeakMap();
 
-                    doc?.head.append(frameStyles);
-                });
+            const syncStyles = (added: HTMLElement[], removed: HTMLElement[] = []): void => {
+                const head = doc?.head;
+
+                if (head === undefined) {
+                    return;
+                }
+
+                for (const element of removed) {
+                    const clone = cloneMap.get(element);
+
+                    if (clone !== undefined) {
+                        clone.remove();
+                        cloneMap.delete(element);
+                    }
+                }
+
+                for (const element of added) {
+                    const clone = cloneMap.get(element);
+
+                    if (clone !== undefined) {
+                        continue;
+                    }
+
+                    const cloneElement = element.cloneNode(true) as HTMLElement;
+
+                    head.appendChild(cloneElement);
+
+                    cloneMap.set(element, cloneElement);
+                }
+            };
+
+            const observer = new MutationObserver(mutations => {
+                const addedNodes: HTMLElement[] = [];
+                const removedNodes: HTMLElement[] = [];
+
+                for (const mutation of mutations) {
+                    for (const node of mutation.addedNodes) {
+                        if (node instanceof HTMLElement && node.matches(selector)) {
+                            addedNodes.push(node);
+                        }
+                    }
+
+                    for (const node of mutation.removedNodes) {
+                        if (node instanceof HTMLElement && node.matches(selector)) {
+                            removedNodes.push(node);
+                        }
+                    }
+                }
+
+                if (addedNodes.length > 0 || removedNodes.length > 0) {
+                    syncStyles(addedNodes, removedNodes);
+                }
+            });
+
+            observer.observe(document.head, {childList: true, subtree: true});
+
+            syncStyles([...document.head.querySelectorAll(selector)] as HTMLElement[]);
+
+            return () => observer.disconnect();
         },
         [doc],
     );
