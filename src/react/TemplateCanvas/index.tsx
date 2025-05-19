@@ -231,8 +231,8 @@ function FrameStyles(): ReactNode {
 
     useIsomorphicLayoutEffect(
         () => {
-            const selector = 'style, [as="style"], [rel="stylesheet"]';
-            const cloneMap = new WeakMap();
+            const selector = 'style, link[as="style"], link[rel="stylesheet"]';
+            const cloneMap = new WeakMap<HTMLElement, HTMLElement>();
 
             const syncStyles = (added: HTMLElement[], removed: HTMLElement[] = []): void => {
                 const head = doc?.head;
@@ -290,7 +290,7 @@ function FrameStyles(): ReactNode {
 
             observer.observe(document.head, {childList: true, subtree: true});
 
-            syncStyles([...document.head.querySelectorAll(selector)] as HTMLElement[]);
+            syncStyles(Array.from(document.head.querySelectorAll<HTMLElement>(selector)));
 
             return () => observer.disconnect();
         },
