@@ -13,9 +13,8 @@ on:
 
 jobs:
   validations:
-    uses: croct-tech/github-workflows/.github/workflows/javascript-validation.yml@unify-workflows
+    uses: croct-tech/renovate-public-presets/.github/workflows/javascript-validations.yml@unify-workflows
     with:
-      node-version: '20'
       run-tests: false
       run-security: true
       use-private-registry: false
