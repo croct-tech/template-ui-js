@@ -1,15 +1,16 @@
-name: Preview deploy
+name: Deploy preview
 
 on:
   pull_request:
     types:
       - synchronize
       - opened
+
 env:
   GCLOUD_PROJECT_DEV: "croct-dev"
 
 jobs:
-  deploy-preview:
+  deploy:
     permissions:
       id-token: write
       contents: read

@@ -1,4 +1,4 @@
-name: Deploy published releases to CDN
+name: Deploy release
 
 on:
   release:
@@ -6,7 +6,7 @@ on:
       - published
 
 jobs:
-  deploy-cdn:
+  cdn:
     permissions:
       id-token: write
       contents: read
@@ -55,3 +55,13 @@ jobs:
           VERSION_PATH="${MAJOR_VERSION}"
           gsutil -m cp build/template-ui.js "gs://${GCLOUD_BUCKET}/js/template-ui@${VERSION_PATH}.js"
           gsutil -m setmeta -h "Cache-Control: public, max-age=3600" "gs://${GCLOUD_BUCKET}/js/template-ui@${VERSION_PATH}.js"
+
+  npm:
+    uses: croct-tech/shared-public-configs/.github/workflows/publish-public-npm-package.yml@master
+    with:
+      prepare-script: >-
+        cp LICENSE README.md build/ &&
+        cd build &&
+        sed -i -e "s~\"version\": \"0.0.0-dev\"~\"version\": \"${GITHUB_REF##*/}\"~" package.json
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
