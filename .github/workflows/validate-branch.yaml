@@ -1,0 +1,60 @@
+name: Validate branch
+
+on:
+  push:
+    tags-ignore:
+      - '**'
+    branches:
+      - master
+  pull_request:
+    types:
+      - synchronize
+      - opened
+
+jobs:
+  validate:
+    uses: croct-tech/shared-public-configs/.github/workflows/javascript-validations.yml@master
+    with:
+      run-tests: false
+      use-private-registry: false
+
+  test-interaction-and-accessibility:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node_modules-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install dependencies
+        if: steps.cache-dependencies.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
+      - name: Build React Storybook
+        run: npm run build-storybook-react
+
+      - name: Build Web component Storybook
+        run: npm run build-storybook-web-component
+
+      - name: Serve React Storybook and run tests
+        run: |
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static/react --port 6007 --silent" \
+            "npx wait-on tcp:6007 && npm run test-storybook-react"
+
+      - name: Serve Web component Storybook and run tests
+        run: |
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static/web-component --port 6009 --silent" \
+            "npx wait-on tcp:6009 && npm run test-storybook-web-component"

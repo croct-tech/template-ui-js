@@ -1,4 +1,4 @@
-name: Preview deploy
+name: Deploy staging
 
 on:
   push:
@@ -9,7 +9,7 @@ env:
   GCLOUD_PROJECT_DEV: "croct-dev"
 
 jobs:
-  deploy-preview:
+  deploy:
     permissions:
       id-token: write
       contents: read
